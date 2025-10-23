@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FirstStop</title>
+    <!-- Load Tailwind CSS for a modern, responsive design -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom font import and styling for aesthetic appeal */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #99cc00; /* Light background for contrast */
+        }
+        /* Custom scrollbar for a cleaner look */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0e7ff;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4f46e5;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #003300;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-lime-900 shadow-xl sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">FirstStop</h1>
+            <p class="text-indigo-200 text-sm mt-1">AL NOOR AL ABYADH MOBILE PHONE TR L.L.C.</p>
+        </div>
+    </header>
+
+    <!-- Main Content: Product Grid Container -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <h2 class="text-4xl font-bold mb-8 text-center sm:text-left">Today's Special</h2>
+        
+        <!-- Products will be injected here -->
+        <div id="product-list" class="grid gap-8 grid-cols-1 sm:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4">
+            <!-- Loading/Error state placeholder -->
+            <p id="loading-message" class="col-span-full text-center text-gray-500 text-lg">Loading products...</p>
+        </div>
+        
+        <!-- Message box for user notifications (e.g., adding to cart) -->
+        <div id="message-box" class="fixed bottom-5 right-5 p-4 rounded-lg shadow-2xl bg-green-500 text-white transition-all duration-300 opacity-0 transform translate-y-full pointer-events-none z-50">
+            Item added to cart!
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-gray-400 text-sm">
+            &copy; 2025 FirstStop. All rights reserved. | Mobile : 0565154777 | safarihypermarketuae
+        </div>
+    </footer>
+
+    <script>
+        // Get the container element for products
+        const productListContainer = document.getElementById('product-list');
+        const loadingMessage = document.getElementById('loading-message');
+        const messageBox = document.getElementById('message-box');
+
+        /**
+         * Shows a temporary notification message on the screen.
+         * @param {string} message - The message to display.
+         */
+        function showMessage(message) {
+            messageBox.textContent = message;
+            // Apply Tailwind classes for visibility and animation
+            messageBox.classList.remove('opacity-0', 'translate-y-full');
+            messageBox.classList.add('opacity-100', 'translate-y-0');
+
+            setTimeout(() => {
+                // Revert classes for hiding and animation
+                messageBox.classList.remove('opacity-100', 'translate-y-0');
+                messageBox.classList.add('opacity-0', 'translate-y-full');
+            }, 2000);
+        }
+
+        /**
+         * Cleans an image URL by extracting the true URL if it's wrapped in a Google Search query.
+         * @param {string} rawUrl - The potentially wrapped image URL.
+         * @returns {string} The corrected, direct image URL.
+         */
+        function sanitizeImageUrl(rawUrl) {
+            // Check for the Google search wrapper pattern from the provided JSON
+            if (rawUrl.startsWith('https://www.google.com/search?q=')) {
+                try {
+                    // Split the URL to isolate the query string
+                    const urlParams = new URLSearchParams(rawUrl.split('?')[1]);
+                    const encodedUrl = urlParams.get('q');
+                    
+                    if (encodedUrl) {
+                        // Decode the URL component which holds the actual placehold.co link
+                        return decodeURIComponent(encodedUrl);
+                    }
+                } catch (e) {
+                    console.warn("Error sanitizing image URL. Using original:", rawUrl, e);
+                }
+            }
+            // Return original URL if no wrapper is detected or parsing fails
+            return rawUrl;
+        }
+
+        /**
+         * Creates and returns a product card element.
+         * @param {object} product - The product data object.
+         * @returns {HTMLElement} The dynamically created product card.
+         */
+        function createProductCard(product) {
+            const finalImageUrl = sanitizeImageUrl(product.imageUrl);
+
+            // Card Wrapper
+            const card = document.createElement('div');
+            card.className = 'bg-white rounded-xl shadow-lg hover:shadow-2xl transition duration-300 overflow-hidden flex flex-col group';
+            
+            // Image Container
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'overflow-hidden aspect-video bg-gray-100';
+
+            const image = document.createElement('img');
+            image.src = finalImageUrl;
+            image.alt = product.name;
+            image.className = 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-500';
+            
+            // Fallback image in case the placeholder URL fails
+            image.onerror = function() {
+                this.onerror = null; // Prevents infinite loop
+                this.src = 'https://placehold.co/400x300/9ca3af/ffffff?text=Image+Not+Found';
+            };
+            imageContainer.appendChild(image);
+            card.appendChild(imageContainer);
+            
+            // Content Area
+            const content = document.createElement('div');
+            content.className = 'p-5 flex flex-col flex-grow';
+
+            // Title
+            const title = document.createElement('h3');
+            title.className = 'text-xl font-semibold text-gray-900 mb-2 truncate';
+            title.textContent = product.name;
+            content.appendChild(title);
+
+            // Description
+            const description = document.createElement('p');
+            description.className = 'text-gray-500 text-sm mb-4 flex-grow';
+            description.textContent = product.description;
+            content.appendChild(description);
+            
+            // Rating and Price
+            const footer = document.createElement('div');
+            footer.className = 'mt-4 pt-4 border-t border-gray-100 flex justify-between items-center';
+
+            const priceText = document.createElement('span');
+            priceText.className = 'text-2xl font-bold text-indigo-600';
+            priceText.textContent = `$${product.price.toFixed(2)}`;
+            footer.appendChild(priceText);
+            
+            const ratingText = document.createElement('span');
+            ratingText.className = 'text-sm font-medium text-yellow-500 flex items-center';
+            ratingText.innerHTML = `
+                <svg class="w-4 h-4 mr-1 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z"/>
+                </svg>
+                ${product.rating.toFixed(1)}
+            `;
+            footer.appendChild(ratingText);
+
+            content.appendChild(footer);
+            
+            // Button
+            const button = document.createElement('button');
+            button.className = 'mt-4 w-full bg-indigo-600 text-white py-3 rounded-lg font-semibold hover:bg-indigo-700 transition duration-150 transform hover:scale-[1.01] active:scale-95 shadow-md hover:shadow-lg';
+            button.textContent = 'Add to Cart';
+            button.onclick = () => showMessage(`${product.name} added to cart!`);
+            content.appendChild(button);
+
+            card.appendChild(content);
+
+            return card;
+        }
+
+        /**
+         * Main function to fetch JSON from 'products.json' and display products.
+         */
+        async function fetchAndRenderProducts() {
+            try {
+                // 1. Fetch the external JSON file
+                const response = await fetch('products.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                // Check if the expected data structure exists
+                if (!data || !Array.isArray(data.products)) {
+                    productListContainer.innerHTML = '<p class="col-span-full text-center text-red-500 text-lg">Error: JSON structure is invalid or products array is missing.</p>';
+                    return;
+                }
+
+                // Clear loading message
+                if (loadingMessage) loadingMessage.remove();
+
+                // 2. Iterate through products and create cards
+                data.products.forEach(product => {
+                    const card = createProductCard(product);
+                    productListContainer.appendChild(card);
+                });
+
+            } catch (error) {
+                // Display error message if fetching or parsing fails
+                console.error("Failed to fetch or parse product data:", error);
+                
+                // Update the loading message to an error message
+                if (loadingMessage) {
+                    loadingMessage.textContent = 'Error loading products. Check console for details.';
+                    loadingMessage.classList.remove('text-gray-500');
+                    loadingMessage.classList.add('text-red-500');
+                } else {
+                    productListContainer.innerHTML = '<p class="col-span-full text-center text-red-500 text-lg">Error loading products. Check console for details.</p>';
+                }
+            }
+        }
+
+        // Run the rendering function when the window loads
+        window.onload = fetchAndRenderProducts;
+
+    </script>
+</body>
+</html>
