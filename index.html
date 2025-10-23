@@ -266,7 +266,7 @@
         const MOCK_PRODUCTS = [
             {
                 "id": 101,
-                "name": "IPhone 16 Pro Max",
+                "name": "IPhone 16 Pro Max 256GB",
                 "description": "256GB",
                 "price": 4449.00,
                 "imageUrl": "https://www.geeky-gadgets.com/wp-content/uploads/2024/06/iPhone-16-Pro-Max-3-1024x576.jpg",
@@ -274,26 +274,26 @@
             },
             {
                 "id": 102,
-                "name": "Quantum Mini Portable SSD 1TB",
+                "name": "Samsung S25 Ultra 256GB",
                 "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing.",
-                "price": 129.50,
+                "price": 3149.00,
                 "imageUrl": "https://placehold.co/400x300/10b981/ffffff?text=Quantum+SSD",
                 "rating": 4.6
             },
             {
                 "id": 103,
-                "name": "Aura Smartwatch Series 5",
+                "name": "HONOR 400 256GB",
                 "description": "Monitors heart rate, sleep, and steps. Waterproof with a stunning AMOLED display.",
-                "price": 199.00,
+                "price": 1499.00,
                 "imageUrl": "https://placehold.co/400x300/ef4444/ffffff?text=Aura+Smartwatch",
                 "rating": 4.9
             },
             {
                 "id": 104,
-                "name": "ErgoFlow Mechanical Keyboard",
+                "name": "VIVO V60 256GB",
                 "description": "Tactile brown switches, full RGB backlight, and ergonomic wrist rest for long sessions.",
-                "price": 155.99,
-                "imageUrl": "https://placehold.co/400x300/3b82f6/ffffff?text=ErgoFlow+Keyboard",
+                "price": 1699.00,
+                "imageUrl": "https://cdn.gadgetbytenepal.com/wp-content/uploads/2025/08/Vivo-V60-Price-in-Nepal-2025.jpg",
                 "rating": 4.7
             }
         ];
@@ -363,7 +363,7 @@
 
             const priceText = document.createElement('span');
             priceText.className = 'price';
-            priceText.textContent = `AED: ${product.price.toFixed(2)}`;
+            priceText.textContent = `AED ${product.price.toFixed(2)}`;
             footer.appendChild(priceText);
             
             const ratingText = document.createElement('span');
@@ -427,5 +427,6 @@
     </script>
 </body>
 </html>
+
 
 
