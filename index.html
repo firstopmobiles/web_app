@@ -3,147 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FirstStop - Mobile E-commerce</title>
+    <title>NextGen Phones - Shop</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use Inter font -->
     <style>
-        /* ==================================================================== */
-        /* 1. GLOBAL & RESET STYLES (Minimal)                                   */
-        /* ==================================================================== */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
         body {
-            font-family: 'Inter', sans-serif; /* Using Inter for aesthetics */
-            background-color: #f4f4f4; /* Light gray background */
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            margin: 0;
-            color: #333;
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f6f9;
         }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1rem;
-            width: 100%;
-        }
-        
-        h1, h2, h3, p {
-            font-family: inherit;
-            margin: 0;
-            padding: 0;
-        }
-
-        /* ==================================================================== */
-        /* 2. HEADER & FOOTER STYLES (Minimal)                                  */
-        /* ==================================================================== */
-        header {
-            background-color: #145214; /* Deep Green */
-            color: white;
-            padding: 0.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        header .container {
-            padding: 0.5rem 1rem;
-        }
-
-        header h1 {
-            font-size: 1.8rem;
-            font-weight: 900;
-            letter-spacing: 0.05em;
-        }
-
-        header p {
-            font-size: 0.8rem;
-            color: #ccc;
-        }
-
-        footer {
-            background-color: #145214;
-            margin-top: auto;
-            color: #ccc;
-            font-size: 0.8rem;
-            text-align: center;
-            padding: 1rem 0;
-        }
-
-        /* ==================================================================== */
-        /* 3. MAIN CONTENT & GRID LAYOUT (Essential for Responsiveness)         */
-        /* ==================================================================== */
-        main {
-            flex-grow: 1;
-            padding: 2rem 0;
-        }
-
-        main h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            color: #145214;
-        }
-
+        /* Custom Styles for Product Grid and Card Aesthetics */
         #product-list {
             display: grid;
-            gap: 1.5rem;
-            grid-template-columns: repeat(1, 1fr); /* Mobile default */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 1rem 0;
         }
-
-        #loading-message {
-            grid-column: 1 / -1; 
-            text-align: center;
-            color: #666;
-            font-size: 1.125rem;
-            padding: 2rem;
-        }
-
-        /* Responsive Breakpoints (Basic Layout) */
-        @media (min-width: 640px) {
-            #product-list { grid-template-columns: repeat(2, 1fr); }
-            main h2 { text-align: left; }
-        }
-        @media (min-width: 1024px) {
-            #product-list { grid-template-columns: repeat(3, 1fr); }
-        }
-        @media (min-width: 1280px) {
-            #product-list { grid-template-columns: repeat(4, 1fr); }
-        }
-
-        /* ==================================================================== */
-        /* 4. PRODUCT CARD COMPONENT (Flat and Functional)                      */
-        /* ==================================================================== */
+        
         .product-card {
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 8px; /* Slightly more rounded */
+            background-color: #ffffff;
+            border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, box-shadow 0.2s;
-            cursor: pointer; /* Indicate it's clickable */
-        }
-        
-        .product-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e5e7eb;
         }
 
-        .image-container {
-            position: relative;
-            padding-top: 75%; /* 4:3 Aspect Ratio (300/400) matches mock data */
-            background-color: #eee;
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
         
-        .image-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
+        .image-container {
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .product-card img {
             width: 100%;
             height: 100%;
-            object-fit: contain; /* Use contain for phones to prevent cropping */
-            transition: opacity 0.3s;
+            object-fit: contain;
+            transition: transform 0.3s ease;
         }
 
         .product-content {
@@ -154,274 +64,206 @@
         }
 
         .product-content h3 {
-            font-size: 1.2rem;
+            font-size: 1.125rem;
             font-weight: 700;
+            color: #1f2937;
             margin-bottom: 0.5rem;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
         }
 
         .product-content p {
-            color: #666;
-            font-size: 0.85rem;
-            margin-bottom: 0.5rem;
-            flex-grow: 1; /* Pushes footer and button to the bottom */
-            line-height: 1.4;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+            flex-grow: 1;
         }
 
         .product-footer {
-            margin-top: 1rem;
-            padding-top: 0.5rem;
-            border-top: 1px solid #eee;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
         }
 
         .price {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: #007bff; /* Primary blue for price */
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #ef4444; /* Red color for price */
         }
 
         .rating {
-            font-size: 0.9rem;
-            color: #ffc107; 
             display: flex;
             align-items: center;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #f59e0b; /* Amber color for rating */
         }
 
         .rating svg {
             width: 1rem;
             height: 1rem;
-            margin-right: 0.3rem;
             fill: currentColor;
-        }
-
-        /* ==================================================================== */
-        /* 5. BUTTON & NOTIFICATION (Functional Styles)                         */
-        /* ==================================================================== */
-        .add-to-cart-btn {
-            margin-top: 1rem;
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            padding: 0.75rem 0;
-            border-radius: 4px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .add-to-cart-btn:hover {
-            background-color: #0056b3;
+            margin-right: 0.25rem;
         }
         
-        #message-box {
-            position: fixed;
-            bottom: 1rem;
-            right: 1rem;
-            padding: 0.75rem 1.25rem;
-            border-radius: 8px;
-            background-color: #28a745; /* Success Green */
-            color: white;
-            opacity: 0;
-            transform: translateY(100%);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            z-index: 50;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            font-weight: 500;
-        }
-
-        #message-box.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* ==================================================================== */
-        /* 6. MODAL STYLES (Popup Window) - NEW                                 */
-        /* ==================================================================== */
+        /* Custom styles for the Modal */
         .modal {
-            /* Hidden by default */
-            display: none; 
-            position: fixed; 
-            z-index: 1000; /* High z-index */
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
             left: 0;
             top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgba(0,0,0,0.6); /* Darker overlay */
-            animation: fadeIn 0.3s;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+            backdrop-filter: blur(5px);
         }
 
         .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto; 
-            padding: 20px;
-            width: 90%; 
-            max-width: 750px;
-            border-radius: 10px;
+            background-color: #fff;
+            margin: 5% auto; /* 5% from the top and centered */
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 90%; /* Responsive width */
+            max-width: 800px; /* Max width */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            animation-name: animatetop;
+            animation-duration: 0.4s;
             position: relative;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes animatetop {
+            from {top:-300px; opacity:0} 
+            to {top:0; opacity:1}
         }
 
         .close-btn {
             color: #aaa;
-            font-size: 36px;
-            font-weight: 300;
-            cursor: pointer;
-            position: absolute;
-            top: 5px;
-            right: 15px;
-            line-height: 1;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
             transition: color 0.2s;
         }
 
         .close-btn:hover,
         .close-btn:focus {
-            color: #333;
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
 
+        /* Modal specific layout */
         .modal-body {
             display: flex;
-            flex-direction: column; /* Stack image and details on small screens */
-            gap: 1.5rem;
-            padding-top: 10px;
-        }
-
-        .modal-image-container {
-            padding-top: 75%; /* 4:3 Aspect Ratio */
-            position: relative;
-            border-radius: 6px;
-            overflow: hidden;
-            background-color: #eee;
-        }
-
-        .modal-image-container img {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
-
-        .modal-details {
-            display: flex;
             flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .modal-body img {
+            max-height: 350px;
+            width: auto;
+            border-radius: 8px;
+            object-fit: contain;
+            background-color: #f9f9f9;
         }
 
-        .modal-details h3 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            color: #145214;
-        }
-
-        .modal-details p {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .modal-price-rating {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-            padding: 0.5rem 0;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-        }
-
-        /* Responsive adjustment for desktop/larger screens */
-        @media (min-width: 600px) {
-            .modal-content {
-                margin-top: 5%;
-            }
+        @media (min-width: 768px) {
             .modal-body {
-                flex-direction: row; /* Side-by-side on larger screens */
+                flex-direction: row;
             }
-            .modal-image-container, .modal-details {
-                flex: 1; 
+            .modal-image-col {
+                flex: 1;
             }
-            .modal-image-container {
-                /* Reset padding-top and use a fixed height for side-by-side layout */
-                padding-top: 0;
-                height: 350px; 
+            .modal-details-col {
+                flex: 2;
             }
         }
         
-        /* Modal Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Notification Box */
+        #message-box {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: #10b981; /* Emerald Green */
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1001;
+            left: 50%;
+            top: 30px;
+            transform: translateX(-50%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            transition: opacity 0.3s, top 0.3s;
+            opacity: 0;
+            font-weight: 600;
         }
 
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        #message-box.show {
+            visibility: visible;
+            opacity: 1;
+            top: 50px;
         }
     </style>
 </head>
-<body>
+<body class="min-h-screen">
+    <!-- Notification Message Box -->
+    <div id="message-box"></div>
 
-    <!-- Header Section -->
-    <header>
-        <div class="container">
-            <h1>First|Stop</h1>
-            <p>AL NOOR AL ABYADH MOBILE PHONE TR L.L.C.</p>
+    <!-- Header / Navigation Bar -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-extrabold text-red-600">NextGen Phones</h1>
+            <button class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-150 shadow-lg">
+                Cart (0)
+            </button>
         </div>
     </header>
 
-    <!-- Main Content: Product Grid -->
-    <main>
-        <div class="container">
-            <h2>Today's Special</h2>
-            
-            <div id="product-list">
-                <p id="loading-message">Loading products...</p>
-            </div>
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 border-red-500 pb-2">Today's Special</h2>
+        
+        <!-- NEW SEARCH BAR -->
+        <div id="search-bar" class="mb-8 flex justify-center">
+            <input type="text" id="search-input" placeholder="Search by phone name or description..." 
+                   class="w-full max-w-2xl p-3 text-lg border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition duration-150 shadow-inner">
         </div>
         
-        <!-- Notification Box -->
-        <div id="message-box">
-            Item added to cart!
+        <div id="product-list">
+            <p id="loading-message" class="text-center col-span-full text-xl text-gray-500">Loading products...</p>
+            <!-- Product cards will be inserted here by JavaScript -->
         </div>
     </main>
 
-    <!-- Footer Section -->
-    <footer>
-        <div class="container">
-            &copy; 2025 FirstStop. All rights reserved. | Mobile : 0565154777 | safarihypermarketuae
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white mt-12 py-6">
+        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
+            &copy; 2025 NextGen Phones. All rights reserved. | Powered by Gemini
         </div>
     </footer>
 
-    <!-- Modal Structure for Product Details (NEW) -->
+    <!-- Product Details Modal (Popup) -->
     <div id="product-modal" class="modal">
         <div class="modal-content">
             <span class="close-btn">&times;</span>
             <div class="modal-body">
-                <div class="modal-image-container">
-                    <img id="modal-product-image" src="" alt="Product Image">
+                <div class="modal-image-col flex justify-center items-center p-4">
+                    <img id="modal-product-image" src="" alt="Product Image" class="w-full h-auto object-cover max-w-xs md:max-w-full">
                 </div>
-                <div class="modal-details">
-                    <h3 id="modal-product-name"></h3>
-                    <p id="modal-product-description"></p>
-                    
-                    <div class="modal-price-rating">
-                        <span id="modal-product-price" class="price"></span>
-                        <!-- Rating element will be populated dynamically -->
-                        <span id="modal-product-rating" class="rating"></span>
+                <div class="modal-details-col p-4">
+                    <h2 id="modal-product-name" class="text-3xl font-extrabold text-gray-900 mb-2"></h2>
+                    <div id="modal-product-rating" class="rating text-xl mb-4"></div>
+                    <p id="modal-product-description" class="text-gray-600 mb-6 text-base leading-relaxed"></p>
+                    <div class="flex items-baseline justify-between mb-6">
+                        <span class="text-gray-500 text-xl font-semibold">Price:</span>
+                        <span id="modal-product-price" class="text-4xl font-black text-red-600"></span>
                     </div>
-
-                    <!-- This button needs a new listener when the modal opens -->
-                    <button class="add-to-cart-btn">Add to Cart</button>
+                    <button class="add-to-cart-btn w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-xl transition duration-300 transform hover:scale-[1.01]">
+                        <svg class="inline w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        Add to Cart
+                    </button>
                 </div>
             </div>
         </div>
@@ -435,6 +277,7 @@
         const productListContainer = document.getElementById('product-list');
         const loadingMessage = document.getElementById('loading-message');
         const messageBox = document.getElementById('message-box');
+        const searchInput = document.getElementById('search-input'); 
 
         // Modal DOM elements
         const productModal = document.getElementById('product-modal');
@@ -485,7 +328,7 @@
             {
                 "id": 106,
                 "name": "IPhone 16 Plus 128 GB",
-                "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing. Great battery life and an expansive Super Retina XDR display.",
+                "description": "Great battery life and an expansive Super Retina XDR display.",
                 "price": 3099.00,
                 "imageUrl": "https://m.media-amazon.com/images/I/71GFlXnPnZL.jpg",
                 "rating": 4.4
@@ -510,7 +353,7 @@
 
 
         // ====================================================================
-        // UTILITY FUNCTIONS
+        // UTILITY FUNCTIONS & MODAL LOGIC 
         // ====================================================================
 
         /**
@@ -528,23 +371,29 @@
             }, 2000);
         }
 
-        // ====================================================================
-        // MODAL LOGIC (NEW)
-        // ====================================================================
+        // Close the modal function
+        function closeModal() {
+            productModal.style.display = 'none';
+        }
 
         // When the user clicks on (x), close the modal
         if (closeBtn) {
-            closeBtn.onclick = function() {
-                productModal.style.display = 'none';
-            }
+            closeBtn.onclick = closeModal;
         }
 
         // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == productModal) {
-                productModal.style.display = 'none';
+                closeModal();
             }
         }
+
+        // Close modal on 'Escape' key press (Accessibility)
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape' && productModal.style.display === 'block') {
+                closeModal();
+            }
+        });
 
         /**
          * Populates the modal with product data and displays it.
@@ -574,8 +423,10 @@
 
             // Re-attach Add to Cart button handler in the modal 
             const modalCartButton = productModal.querySelector('.add-to-cart-btn');
+            modalCartButton.onclick = null; 
+            
             modalCartButton.onclick = () => {
-                productModal.style.display = 'none'; // Close modal after adding
+                closeModal(); // Close modal after adding
                 showMessage(`${product.name} added to cart!`);
             };
 
@@ -584,25 +435,21 @@
 
 
         // ====================================================================
-        // PRODUCT CARD RENDERING
+        // PRODUCT CARD RENDERING 
         // ====================================================================
 
         /**
-         * Creates and returns a product card element using defined CSS classes.
+         * Creates and returns a product card element.
          * @param {object} product - The product data object.
          * @returns {HTMLElement} The dynamically created product card.
          */
         function createProductCard(product) {
             const finalImageUrl = product.imageUrl; 
 
-            // Card Structure
             const card = document.createElement('div');
             card.className = 'product-card';
-            
-            // *** ADDED: Click handler to open modal on card click ***
             card.onclick = () => openProductModal(product); 
 
-            // Image Area
             const imageContainer = document.createElement('div');
             imageContainer.className = 'image-container';
 
@@ -610,7 +457,7 @@
             image.src = finalImageUrl;
             image.alt = product.name;
             
-            // Image fallback
+            // Image Fallback
             image.onerror = function() {
                 this.onerror = null;
                 this.src = 'https://placehold.co/400x300/9ca3af/ffffff?text=Image+Not+Found'; 
@@ -618,7 +465,6 @@
             imageContainer.appendChild(image);
             card.appendChild(imageContainer);
             
-            // Content Area
             const content = document.createElement('div');
             content.className = 'product-content';
 
@@ -627,11 +473,9 @@
             content.appendChild(title);
 
             const description = document.createElement('p');
-            // Truncate description for card view
             description.textContent = product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description;
             content.appendChild(description);
             
-            // Footer (Price & Rating)
             const footer = document.createElement('div');
             footer.className = 'product-footer';
 
@@ -652,13 +496,11 @@
 
             content.appendChild(footer);
             
-            // Add to Cart Button (The one on the card)
             const button = document.createElement('button');
-            button.className = 'add-to-cart-btn';
+            button.className = 'add-to-cart-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg transition duration-150 mt-2 shadow-md';
             button.textContent = 'Add to Cart';
-            // *** ADDED: Stop propagation to prevent modal from opening when button is clicked ***
             button.onclick = (e) => {
-                e.stopPropagation(); 
+                e.stopPropagation(); // Prevent the card's onclick (modal) from firing
                 showMessage(`${product.name} added to cart!`);
             };
             content.appendChild(button);
@@ -668,36 +510,64 @@
         }
 
         /**
-         * Main function to load mock data and render products to the DOM.
+         * Renders a specific list of products.
+         * @param {Array<object>} productsToRender - The array of products to display.
+         */
+        function renderProducts(productsToRender) {
+            productListContainer.innerHTML = ''; // Clear existing products
+
+            if (productsToRender.length === 0) {
+                productListContainer.innerHTML = '<p id="no-results" style="grid-column: 1 / -1; text-align: center; color: #666; padding: 2rem; font-size: 1.25rem;">No products found matching your search. Try a different keyword!</p>';
+                return;
+            }
+
+            productsToRender.forEach(product => {
+                const card = createProductCard(product);
+                productListContainer.appendChild(card);
+            });
+        }
+
+        /**
+         * Main function to load and render all products initially.
          */
         async function fetchAndRenderProducts() {
-            try {
-                // Use the embedded MOCK_PRODUCTS data structure
-                const data = { products: MOCK_PRODUCTS };
-
-                if (!data || !Array.isArray(data.products)) {
-                    productListContainer.innerHTML = '<p id="error-message">Error: Product data structure is invalid.</p>';
-                    return;
-                }
-
-                if (loadingMessage) loadingMessage.remove();
-
-                // Render each product card
-                data.products.forEach(product => {
-                    const card = createProductCard(product);
-                    productListContainer.appendChild(card);
-                });
-
-            } catch (error) {
-                console.error("Failed to render product data:", error);
-                
-                if (loadingMessage) {
-                    loadingMessage.textContent = 'Error loading products. Check console for details.';
-                    loadingMessage.style.color = 'red';
-                } else {
-                    productListContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: red; font-size: 1.125rem;">Error loading products. Check console for details.</p>';
-                }
+            if (loadingMessage) loadingMessage.remove();
+            
+            if (!MOCK_PRODUCTS || !Array.isArray(MOCK_PRODUCTS)) {
+                productListContainer.innerHTML = '<p id="error-message">Error: Product data structure is invalid.</p>';
+                return;
             }
+
+            renderProducts(MOCK_PRODUCTS);
+        }
+        
+        // ====================================================================
+        // SEARCH FUNCTIONALITY
+        // ====================================================================
+
+        /**
+         * Filters the product list based on the search input value.
+         */
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                renderProducts(MOCK_PRODUCTS); // Show all products if search is empty
+                return;
+            }
+
+            const filteredProducts = MOCK_PRODUCTS.filter(product => {
+                // Check if search term is in name or description
+                return product.name.toLowerCase().includes(searchTerm) || 
+                       product.description.toLowerCase().includes(searchTerm);
+            });
+
+            renderProducts(filteredProducts);
+        }
+        
+        // Attach the search handler to the input event (filters as the user types)
+        if (searchInput) {
+            searchInput.addEventListener('input', handleSearch);
         }
 
         // Initialize the application
@@ -705,8 +575,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
