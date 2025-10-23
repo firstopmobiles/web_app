@@ -85,10 +85,11 @@
             margin-bottom: 1rem;
         }
 
+        /* CHANGED: Price color to #003300 (Dark Green) */
         .price {
             font-size: 1.25rem;
             font-weight: 800;
-            color: #ef4444; /* Red color for price */
+            color: #003300; 
         }
 
         .rating {
@@ -96,7 +97,7 @@
             align-items: center;
             font-size: 0.875rem;
             font-weight: 600;
-            color: #f59e0b; /* Amber color for rating */
+            color: #f59e0b; /* Amber color for rating - remains the same */
         }
 
         .rating svg {
@@ -180,11 +181,11 @@
             }
         }
         
-        /* Notification Box */
+        /* CHANGED: Notification Box to #003300 */
         #message-box {
             visibility: hidden;
             min-width: 250px;
-            background-color: #10b981; /* Emerald Green */
+            background-color: #003300; 
             color: #fff;
             text-align: center;
             border-radius: 8px;
@@ -211,22 +212,24 @@
     <!-- Notification Message Box -->
     <div id="message-box"></div>
 
-    <!-- Header / Navigation Bar (Cart button removed) -->
+    <!-- Header / Navigation Bar -->
     <header class="bg-white shadow-md sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <h1 class="text-2xl font-extrabold text-red-600">First|Stop</h1>
-            <!-- Cart button was here, now removed -->
+            <!-- CHANGED: Title text color to #003300 -->
+            <h1 class="text-2xl font-extrabold text-[#003300]">First|Stop</h1>
         </div>
     </header>
 
     <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 border-red-500 pb-2">Today's Special</h2>
+        <!-- CHANGED: Border color to #003300 -->
+        <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 border-[#003300] pb-2">Today's Special</h2>
         
-        <!-- NEW SEARCH BAR -->
+        <!-- SEARCH BAR -->
         <div id="search-bar" class="mb-8 flex justify-center">
             <input type="text" id="search-input" placeholder="Search by phone name or description..." 
-                   class="w-full max-w-2xl p-3 text-lg border border-gray-300 rounded-lg focus:ring-red-500 focus:border-red-500 transition duration-150 shadow-inner">
+                   <!-- CHANGED: Focus ring/border colors to #003300 -->
+                   class="w-full max-w-2xl p-3 text-lg border border-gray-300 rounded-lg focus:ring-[#003300] focus:border-[#003300] transition duration-150 shadow-inner">
         </div>
         
         <div id="product-list">
@@ -256,9 +259,11 @@
                     <p id="modal-product-description" class="text-gray-600 mb-6 text-base leading-relaxed"></p>
                     <div class="flex items-baseline justify-between mb-6">
                         <span class="text-gray-500 text-xl font-semibold">Price:</span>
-                        <span id="modal-product-price" class="text-4xl font-black text-red-600"></span>
+                        <!-- CHANGED: Price text color to #003300 -->
+                        <span id="modal-product-price" class="text-4xl font-black text-[#003300]"></span>
                     </div>
-                    <button class="add-to-cart-btn w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-lg shadow-xl transition duration-300 transform hover:scale-[1.01]">
+                    <!-- CHANGED: Modal button color to #003300 and hover to #004d00 -->
+                    <button class="add-to-cart-btn w-full bg-[#003300] hover:bg-[#004d00] text-white font-bold py-3 rounded-lg shadow-xl transition duration-300 transform hover:scale-[1.01]">
                         <svg class="inline w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         Add to Cart
                     </button>
@@ -494,8 +499,9 @@
 
             content.appendChild(footer);
             
+            // CHANGED: Button color to #003300 and hover to #004d00
             const button = document.createElement('button');
-            button.className = 'add-to-cart-btn bg-red-500 hover:bg-red-600 text-white font-semibold py-2 rounded-lg transition duration-150 mt-2 shadow-md';
+            button.className = 'add-to-cart-btn bg-[#003300] hover:bg-[#004d00] text-white font-semibold py-2 rounded-lg transition duration-150 mt-2 shadow-md';
             button.textContent = 'Add to Cart';
             button.onclick = (e) => {
                 e.stopPropagation(); // Prevent the card's onclick (modal) from firing
@@ -573,4 +579,3 @@
     </script>
 </body>
 </html>
-
