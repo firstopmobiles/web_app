@@ -3,18 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phones - Shop</title>
+    <title>NextGen Phones - Shop</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Use Inter font -->
+    <!-- Configure Tailwind to use the custom dark green color for primary elements -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-dark-green': '#003300',
+                        'primary-dark-green-hover': '#004d00',
+                        'accent-amber': '#f59e0b',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Load Inter Font and Custom Styles -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        
         body {
-            font-family: 'Inter', sans-serif;
             background-color: #f4f6f9;
         }
 
-        /* Custom Styles for Product Grid and Card Aesthetics */
+        /* Product Grid setup for responsiveness */
         #product-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -23,11 +40,9 @@
         }
         
         .product-card {
-            background-color: #ffffff;
             border-radius: 12px;
-            overflow: hidden;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -35,8 +50,8 @@
         }
 
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         }
         
         .image-container {
@@ -56,147 +71,67 @@
             transition: transform 0.3s ease;
         }
 
-        .product-content {
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .product-content h3 {
-            font-size: 1.125rem;
-            font-weight: 700;
-            color: #1f2937;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-content p {
-            font-size: 0.875rem;
-            color: #6b7280;
-            margin-bottom: 1rem;
-            flex-grow: 1;
-        }
-
-        .product-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-        }
-
-        /* CHANGED: Price color to #003300 (Dark Green) */
-        .price {
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: #003300; 
-        }
-
-        .rating {
-            display: flex;
-            align-items: center;
-            font-size: 0.875rem;
-            font-weight: 600;
-            color: #f59e0b; /* Amber color for rating - remains the same */
-        }
-
-        .rating svg {
-            width: 1rem;
-            height: 1rem;
-            fill: currentColor;
-            margin-right: 0.25rem;
-        }
-        
-        /* Custom styles for the Modal */
+        /* Modal specific styles */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); 
             backdrop-filter: blur(5px);
         }
 
         .modal-content {
             background-color: #fff;
-            margin: 5% auto; /* 5% from the top and centered */
+            margin: 5% auto; 
             padding: 1.5rem;
             border-radius: 12px;
-            width: 90%; /* Responsive width */
-            max-width: 800px; /* Max width */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            animation-name: animatetop;
-            animation-duration: 0.4s;
+            width: 95%; 
+            max-width: 900px; 
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            animation: animatetop 0.5s;
             position: relative;
         }
         
         @keyframes animatetop {
-            from {top:-300px; opacity:0} 
+            from {top:-200px; opacity:0} 
             to {top:0; opacity:1}
         }
 
-        .close-btn {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            transition: color 0.2s;
-        }
-
-        .close-btn:hover,
-        .close-btn:focus {
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        /* Modal specific layout */
-        .modal-body {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-        }
-        
-        .modal-body img {
-            max-height: 350px;
-            width: auto;
-            border-radius: 8px;
-            object-fit: contain;
-            background-color: #f9f9f9;
-        }
-
+        /* Responsive Modal Layout */
         @media (min-width: 768px) {
             .modal-body {
                 flex-direction: row;
             }
             .modal-image-col {
                 flex: 1;
+                max-width: 40%;
             }
             .modal-details-col {
                 flex: 2;
             }
         }
         
-        /* CHANGED: Notification Box to #003300 */
+        /* Notification Box (Uses the primary-dark-green color) */
         #message-box {
             visibility: hidden;
-            min-width: 250px;
+            min-width: 280px;
             background-color: #003300; 
             color: #fff;
             text-align: center;
             border-radius: 8px;
-            padding: 16px;
+            padding: 14px 20px;
             position: fixed;
             z-index: 1001;
             left: 50%;
             top: 30px;
             transform: translateX(-50%);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-            transition: opacity 0.3s, top 0.3s;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+            transition: opacity 0.4s ease, top 0.4s ease;
             opacity: 0;
             font-weight: 600;
         }
@@ -210,61 +145,63 @@
 </head>
 <body class="min-h-screen">
     <!-- Notification Message Box -->
-    <div id="message-box"></div>
+    <div id="message-box" role="alert" aria-live="assertive"></div>
 
-    <!-- Header / Navigation Bar -->
-    <header class="bg-white shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-            <!-- CHANGED: Title text color to #003300 -->
-            <h1 class="text-2xl font-extrabold text-[#003300]">First|Stop</h1>
+    <!-- Header / Navigation Bar (Cart button removed) -->
+    <header class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Title uses custom dark green color -->
+            <h1 class="text-3xl font-extrabold text-primary-dark-green tracking-wider">NextGen Phones</h1>
         </div>
     </header>
 
     <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- CHANGED: Border color to #003300 -->
-        <h2 class="text-3xl font-bold text-gray-800 mb-6 border-b-2 border-[#003300] pb-2">Today's Special</h2>
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <!-- Title uses custom dark green border -->
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 border-b-4 border-primary-dark-green pb-3">Today's Special</h2>
         
         <!-- SEARCH BAR -->
-        <div id="search-bar" class="mb-8 flex justify-center">
+        <div id="search-bar" class="mb-10 flex justify-center">
             <input type="text" id="search-input" placeholder="Search by phone name or description..." 
-                   <!-- CHANGED: Focus ring/border colors to #003300 -->
-                   class="w-full max-w-2xl p-3 text-lg border border-gray-300 rounded-lg focus:ring-[#003300] focus:border-[#003300] transition duration-150 shadow-inner">
+                   class="w-full max-w-3xl p-4 text-lg border-2 border-gray-300 rounded-xl shadow-lg 
+                          focus:ring-primary-dark-green focus:border-primary-dark-green transition duration-200">
         </div>
         
-        <div id="product-list">
+        <div id="product-list" aria-live="polite">
             <p id="loading-message" class="text-center col-span-full text-xl text-gray-500">Loading products...</p>
             <!-- Product cards will be inserted here by JavaScript -->
         </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white mt-12 py-6">
+    <footer class="bg-gray-800 text-white mt-16 py-8">
         <div class="max-w-7xl mx-auto px-4 text-center text-sm">
             &copy; 2025 NextGen Phones. All rights reserved. | Powered by Gemini
         </div>
     </footer>
 
     <!-- Product Details Modal (Popup) -->
-    <div id="product-modal" class="modal">
+    <div id="product-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-product-name">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div class="modal-body">
+            <button class="close-btn absolute top-4 right-6 text-gray-400 hover:text-gray-900 transition duration-150 text-4xl leading-none">&times;</button>
+            <div class="modal-body flex flex-col md:flex-row gap-8">
                 <div class="modal-image-col flex justify-center items-center p-4">
-                    <img id="modal-product-image" src="" alt="Product Image" class="w-full h-auto object-cover max-w-xs md:max-w-full">
+                    <img id="modal-product-image" src="" alt="Product Image" class="w-full h-auto object-contain max-h-[350px] rounded-lg shadow-xl">
                 </div>
                 <div class="modal-details-col p-4">
-                    <h2 id="modal-product-name" class="text-3xl font-extrabold text-gray-900 mb-2"></h2>
-                    <div id="modal-product-rating" class="rating text-xl mb-4"></div>
-                    <p id="modal-product-description" class="text-gray-600 mb-6 text-base leading-relaxed"></p>
-                    <div class="flex items-baseline justify-between mb-6">
-                        <span class="text-gray-500 text-xl font-semibold">Price:</span>
-                        <!-- CHANGED: Price text color to #003300 -->
-                        <span id="modal-product-price" class="text-4xl font-black text-[#003300]"></span>
+                    <h2 id="modal-product-name" class="text-4xl font-extrabold text-gray-900 mb-3"></h2>
+                    <div id="modal-product-rating" class="rating text-2xl mb-4 text-accent-amber"></div>
+                    <p id="modal-product-description" class="text-gray-600 mb-8 text-lg leading-relaxed"></p>
+                    <div class="flex items-baseline justify-between mb-8 pb-4 border-b border-gray-200">
+                        <span class="text-gray-500 text-2xl font-semibold">Price:</span>
+                        <!-- Price text uses custom dark green color -->
+                        <span id="modal-product-price" class="text-5xl font-black text-primary-dark-green"></span>
                     </div>
-                    <!-- CHANGED: Modal button color to #003300 and hover to #004d00 -->
-                    <button class="add-to-cart-btn w-full bg-[#003300] hover:bg-[#004d00] text-white font-bold py-3 rounded-lg shadow-xl transition duration-300 transform hover:scale-[1.01]">
-                        <svg class="inline w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                    <!-- Modal button uses custom dark green color with refined hover -->
+                    <button id="modal-add-to-cart-btn" class="w-full bg-primary-dark-green hover:bg-primary-dark-green-hover 
+                                                            text-white font-bold py-4 rounded-xl shadow-2xl transition 
+                                                            duration-300 transform hover:scale-[1.01] flex items-center justify-center text-xl">
+                        <svg class="inline w-7 h-7 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         Add to Cart
                     </button>
                 </div>
@@ -275,18 +212,8 @@
 
     <script>
         // ====================================================================
-        // JAVASCRIPT LOGIC 
+        // MOCK DATA
         // ====================================================================
-        const productListContainer = document.getElementById('product-list');
-        const loadingMessage = document.getElementById('loading-message');
-        const messageBox = document.getElementById('message-box');
-        const searchInput = document.getElementById('search-input'); 
-
-        // Modal DOM elements
-        const productModal = document.getElementById('product-modal');
-        const closeBtn = document.querySelector('.close-btn');
-
-        // Embedded Mock Product Data
         const MOCK_PRODUCTS = [
             {
                 "id": 101,
@@ -354,10 +281,57 @@
             }
         ];
 
+        // ====================================================================
+        // DOM ELEMENTS AND CONSTANTS
+        // ====================================================================
+        const productListContainer = document.getElementById('product-list');
+        const loadingMessage = document.getElementById('loading-message');
+        const messageBox = document.getElementById('message-box');
+        const searchInput = document.getElementById('search-input'); 
+        const productModal = document.getElementById('product-modal');
+        const closeBtn = productModal.querySelector('.close-btn');
 
         // ====================================================================
         // UTILITY FUNCTIONS & MODAL LOGIC 
         // ====================================================================
+
+        /**
+         * Generates SVG star icons based on the rating value.
+         * @param {number} rating - The product rating (0.0 to 5.0).
+         * @returns {string} HTML string containing 5 star SVGs.
+         */
+        function generateStarRating(rating) {
+            const maxStars = 5;
+            let starsHtml = '';
+            
+            for (let i = 1; i <= maxStars; i++) {
+                let fillClass;
+                // Full Star if rating >= current star index
+                if (rating >= i) {
+                    fillClass = 'text-accent-amber fill-current';
+                } 
+                // Half Star logic (optional, keeping it simple for now)
+                else if (rating >= i - 0.5) {
+                    fillClass = 'text-accent-amber fill-current'; // Using full fill for simplicity, but could be gray
+                } 
+                // Empty Star
+                else {
+                    fillClass = 'text-gray-300 fill-current';
+                }
+
+                starsHtml += `
+                    <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z" class="${fillClass}"/>
+                    </svg>
+                `;
+            }
+
+            return `
+                ${starsHtml}
+                <span class="ml-2 font-semibold text-gray-700 text-base">${rating.toFixed(1)}</span>
+            `;
+        }
+
 
         /**
          * Shows a temporary notification message on the screen.
@@ -371,27 +345,27 @@
 
             setTimeout(() => {
                 messageBox.classList.remove('show');
-            }, 2000);
+            }, 2500); // Display for a slightly longer time
         }
 
-        // Close the modal function
+        /**
+         * Closes the product modal.
+         */
         function closeModal() {
             productModal.style.display = 'none';
         }
 
-        // When the user clicks on (x), close the modal
+        // Event listeners for modal closing
         if (closeBtn) {
             closeBtn.onclick = closeModal;
         }
 
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == productModal) {
                 closeModal();
             }
         }
 
-        // Close modal on 'Escape' key press (Accessibility)
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape' && productModal.style.display === 'block') {
                 closeModal();
@@ -403,11 +377,14 @@
          * @param {object} product - The product data object.
          */
         function openProductModal(product) {
-            document.getElementById('modal-product-image').src = product.imageUrl;
-            document.getElementById('modal-product-image').alt = product.name;
+            const imageEl = document.getElementById('modal-product-image');
+            const modalCartButton = document.getElementById('modal-add-to-cart-btn');
+
+            imageEl.src = product.imageUrl;
+            imageEl.alt = product.name;
             
             // Image fallback for the modal
-            document.getElementById('modal-product-image').onerror = function() {
+            imageEl.onerror = function() {
                 this.onerror = null;
                 this.src = 'https://placehold.co/400x300/9ca3af/ffffff?text=Image+Not+Found'; 
             };
@@ -416,24 +393,20 @@
             document.getElementById('modal-product-description').textContent = product.description;
             document.getElementById('modal-product-price').textContent = `AED ${product.price.toFixed(2)}`;
             
-            const ratingElement = document.getElementById('modal-product-rating');
-            ratingElement.innerHTML = `
-                <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z"/>
-                </svg>
-                ${product.rating.toFixed(1)}
-            `;
+            // Render the generated stars
+            document.getElementById('modal-product-rating').innerHTML = generateStarRating(product.rating);
 
             // Re-attach Add to Cart button handler in the modal 
-            const modalCartButton = productModal.querySelector('.add-to-cart-btn');
+            // Clear existing listener to prevent duplicate firing
             modalCartButton.onclick = null; 
             
             modalCartButton.onclick = () => {
-                closeModal(); // Close modal after adding
+                closeModal(); 
                 showMessage(`${product.name} added to cart!`);
             };
 
             productModal.style.display = 'block';
+            productModal.focus(); // Focus modal for a11y
         }
 
 
@@ -447,18 +420,18 @@
          * @returns {HTMLElement} The dynamically created product card.
          */
         function createProductCard(product) {
-            const finalImageUrl = product.imageUrl; 
-
             const card = document.createElement('div');
-            card.className = 'product-card';
+            card.className = 'product-card bg-white';
+            card.setAttribute('tabindex', '0'); // Make card focusable
             card.onclick = () => openProductModal(product); 
 
+            // --- Image Container ---
             const imageContainer = document.createElement('div');
-            imageContainer.className = 'image-container';
+            imageContainer.className = 'image-container rounded-t-xl';
 
             const image = document.createElement('img');
-            image.src = finalImageUrl;
-            image.alt = product.name;
+            image.src = product.imageUrl;
+            image.alt = `Image of ${product.name}`;
             
             // Image Fallback
             image.onerror = function() {
@@ -468,6 +441,7 @@
             imageContainer.appendChild(image);
             card.appendChild(imageContainer);
             
+            // --- Content ---
             const content = document.createElement('div');
             content.className = 'product-content';
 
@@ -476,9 +450,10 @@
             content.appendChild(title);
 
             const description = document.createElement('p');
-            description.textContent = product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description;
+            description.textContent = product.description.length > 80 ? product.description.substring(0, 80) + '...' : product.description;
             content.appendChild(description);
             
+            // --- Footer (Price and Rating) ---
             const footer = document.createElement('div');
             footer.className = 'product-footer';
 
@@ -488,20 +463,15 @@
             footer.appendChild(priceText);
             
             const ratingText = document.createElement('span');
-            ratingText.className = 'rating';
-            ratingText.innerHTML = `
-                <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z"/>
-                </svg>
-                ${product.rating.toFixed(1)}
-            `;
+            ratingText.className = 'rating flex items-center';
+            ratingText.innerHTML = generateStarRating(product.rating);
             footer.appendChild(ratingText);
 
             content.appendChild(footer);
             
-            // CHANGED: Button color to #003300 and hover to #004d00
+            // --- Button ---
             const button = document.createElement('button');
-            button.className = 'add-to-cart-btn bg-[#003300] hover:bg-[#004d00] text-white font-semibold py-2 rounded-lg transition duration-150 mt-2 shadow-md';
+            button.className = 'add-to-cart-btn bg-primary-dark-green hover:bg-primary-dark-green-hover text-white font-semibold py-3 rounded-lg transition duration-200 mt-2 shadow-md hover:shadow-lg';
             button.textContent = 'Add to Cart';
             button.onclick = (e) => {
                 e.stopPropagation(); // Prevent the card's onclick (modal) from firing
@@ -521,7 +491,7 @@
             productListContainer.innerHTML = ''; // Clear existing products
 
             if (productsToRender.length === 0) {
-                productListContainer.innerHTML = '<p id="no-results" style="grid-column: 1 / -1; text-align: center; color: #666; padding: 2rem; font-size: 1.25rem;">No products found matching your search. Try a different keyword!</p>';
+                productListContainer.innerHTML = '<p id="no-results" class="col-span-full text-center text-xl text-gray-500 p-8">No products found matching your search. Try a different keyword!</p>';
                 return;
             }
 
@@ -531,20 +501,6 @@
             });
         }
 
-        /**
-         * Main function to load and render all products initially.
-         */
-        async function fetchAndRenderProducts() {
-            if (loadingMessage) loadingMessage.remove();
-            
-            if (!MOCK_PRODUCTS || !Array.isArray(MOCK_PRODUCTS)) {
-                productListContainer.innerHTML = '<p id="error-message">Error: Product data structure is invalid.</p>';
-                return;
-            }
-
-            renderProducts(MOCK_PRODUCTS);
-        }
-        
         // ====================================================================
         // SEARCH FUNCTIONALITY
         // ====================================================================
@@ -556,12 +512,12 @@
             const searchTerm = searchInput.value.toLowerCase().trim();
             
             if (searchTerm === '') {
-                renderProducts(MOCK_PRODUCTS); // Show all products if search is empty
+                renderProducts(MOCK_PRODUCTS);
                 return;
             }
 
             const filteredProducts = MOCK_PRODUCTS.filter(product => {
-                // Check if search term is in name or description
+                // Search in name and description
                 return product.name.toLowerCase().includes(searchTerm) || 
                        product.description.toLowerCase().includes(searchTerm);
             });
@@ -569,13 +525,31 @@
             renderProducts(filteredProducts);
         }
         
-        // Attach the search handler to the input event (filters as the user types)
+        // Attach the search handler to the input event
         if (searchInput) {
             searchInput.addEventListener('input', handleSearch);
         }
 
-        // Initialize the application
-        window.onload = fetchAndRenderProducts;
+        // ====================================================================
+        // INITIALIZATION
+        // ====================================================================
+
+        /**
+         * Main function to load and render all products initially.
+         */
+        function initializeApp() {
+            if (loadingMessage) loadingMessage.remove();
+            
+            if (!MOCK_PRODUCTS || !Array.isArray(MOCK_PRODUCTS)) {
+                productListContainer.innerHTML = '<p id="error-message">Error: Product data structure is invalid.</p>';
+                return;
+            }
+
+            renderProducts(MOCK_PRODUCTS);
+        }
+
+        // Initialize the application once the window is fully loaded
+        window.onload = initializeApp;
     </script>
 </body>
 </html>
