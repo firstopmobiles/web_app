@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FirstStop - Minimal CSS</title>
+    <style>
+        /* ==================================================================== */
+        /* 1. GLOBAL & RESET STYLES (Minimal)                                   */
+        /* ==================================================================== */
+        body {
+            font-family: sans-serif; /* System default font */
+            background-color: #f4f4f4; /* Light gray background */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        h1, h2, h3, p {
+		    color: black;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ==================================================================== */
+        /* 2. HEADER & FOOTER STYLES (Minimal)                                  */
+        /* ==================================================================== */
+        header {
+            background-color: #003300;
+            color: white;
+            padding: 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header .container {
+            padding: 0.5rem 1rem;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        header p {
+            font-size: 0.8rem;
+            color: #ccc;
+        }
+
+        footer {
+            background-color: #003300;
+            margin-top: auto;
+            color: #ccc;
+            font-size: 0.8rem;
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        /* ==================================================================== */
+        /* 3. MAIN CONTENT & GRID LAYOUT (Essential for Responsiveness)         */
+        /* ==================================================================== */
+        main {
+            flex-grow: 1;
+            padding: 2rem 0;
+        }
+
+        main h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        #product-list {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(1, 1fr); /* Mobile default */
+        }
+
+        #loading-message {
+            grid-column: 1 / -1; 
+            text-align: center;
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Responsive Breakpoints (Basic Layout) */
+        @media (min-width: 640px) {
+            #product-list { grid-template-columns: repeat(2, 1fr); }
+            main h2 { text-align: left; }
+        }
+        @media (min-width: 1024px) {
+            #product-list { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (min-width: 1280px) {
+            #product-list { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        /* ==================================================================== */
+        /* 4. PRODUCT CARD COMPONENT (Flat and Functional)                      */
+        /* ==================================================================== */
+        .product-card {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .image-container {
+            position: relative;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #eee;
+        }
+        
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-content {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-content h3 {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-content p {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            margin-top: 1rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #007bff; /* Primary link color for price */
+        }
+
+        .rating {
+            font-size: 0.8rem;
+            color: #ffc107; /* Standard warning color for rating */
+            display: flex;
+            align-items: center;
+        }
+
+        .rating svg {
+            width: 0.9rem;
+            height: 0.9rem;
+            margin-right: 0.2rem;
+            fill: currentColor;
+        }
+
+        /* ==================================================================== */
+        /* 5. BUTTON & NOTIFICATION (Functional Styles)                         */
+        /* ==================================================================== */
+        .add-to-cart-btn {
+            margin-top: 1rem;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 0.6rem 0;
+            border-radius: 4px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        #message-box {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            background-color: #28a745; /* Success Green */
+            color: white;
+            opacity: 0;
+            transform: translateY(100%);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 50;
+        }
+
+        #message-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="container">
+            <h1>FirstStop</h1>
+            <p>AL NOOR AL ABYADH MOBILE PHONE TR L.L.C.</p>
+        </div>
+    </header>
+
+    <!-- Main Content: Product Grid -->
+    <main>
+        <div class="container">
+            <h2>Today's Special</h2>
+            
+            <div id="product-list">
+                <p id="loading-message">Loading products...</p>
+            </div>
+        </div>
+        
+        <!-- Notification Box -->
+        <div id="message-box">
+            Item added to cart!
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="container">
+            &copy; 2025 FirstStop. All rights reserved. | Mobile : 0565154777 | safarihypermarketuae
+        </div>
+    </footer>
+
+    <script>
+        // ====================================================================
+        // JAVASCRIPT LOGIC (Updated to use mock data)
+        // ====================================================================
+        const productListContainer = document.getElementById('product-list');
+        const loadingMessage = document.getElementById('loading-message');
+        const messageBox = document.getElementById('message-box');
+
+        // Embedded Mock Product Data to replace the failing fetch('products.json')
+        const MOCK_PRODUCTS = [
+            {
+                name: "Smartphone X20",
+                description: "A high-performance smartphone with a powerful camera and long-lasting battery.",
+                price: 799.99,
+                rating: 4.5,
+                imageUrl: "https://placehold.co/400x225/203050/fff?text=Phone+X20"
+            },
+            {
+                name: "Wireless Earbuds Pro",
+                description: "Crystal clear audio, active noise cancellation, and a sleek charging case.",
+                price: 149.50,
+                rating: 4.7,
+                imageUrl: "https://placehold.co/400x225/806040/fff?text=Earbuds+Pro"
+            },
+            {
+                name: "4K Smart TV 55\"",
+                description: "Vivid colors, smart features, and ultra-thin bezels for an immersive viewing experience.",
+                price: 1250.00,
+                rating: 4.2,
+                imageUrl: "https://placehold.co/400x225/404040/fff?text=Smart+TV"
+            },
+            {
+                name: "Smartwatch Elite",
+                description: "Track your fitness, monitor health, and stay connected with notifications all day.",
+                price: 299.00,
+                rating: 4.1,
+                imageUrl: "https://placehold.co/400x225/107050/fff?text=Watch+Elite"
+            },
+            {
+                name: "Laptop Z13",
+                description: "Lightweight and powerful laptop perfect for work and creative tasks on the go.",
+                price: 1599.00,
+                rating: 4.6,
+                imageUrl: "https://placehold.co/400x225/703080/fff?text=Laptop+Z13"
+            }
+        ];
+
+
+        /**
+         * Shows a temporary notification message on the screen.
+         * @param {string} message - The message to display.
+         */
+        function showMessage(message) {
+            if (!messageBox) return;
+
+            messageBox.textContent = message;
+            messageBox.classList.add('show');
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 2000);
+        }
+
+        /**
+         * Cleans an image URL by extracting the direct link if it's wrapped
+         * in a Google Search query (a common proxy pattern).
+         * @param {string} rawUrl - The potentially wrapped image URL.
+         * @returns {string} The corrected, direct image URL.
+         */
+        function sanitizeImageUrl(rawUrl) {
+            if (rawUrl.startsWith('https://www.google.com/search?q=')) {
+                try {
+                    const urlParams = new URLSearchParams(rawUrl.split('?')[1]);
+                    const encodedUrl = urlParams.get('q');
+                    if (encodedUrl) {
+                        return decodeURIComponent(encodedUrl);
+                    }
+                } catch (e) {
+                    console.warn("Error sanitizing image URL. Using original:", rawUrl, e);
+                }
+            }
+            return rawUrl;
+        }
+
+        /**
+         * Creates and returns a product card element using defined CSS classes.
+         * @param {object} product - The product data object.
+         * @returns {HTMLElement} The dynamically created product card.
+         */
+        function createProductCard(product) {
+            const finalImageUrl = sanitizeImageUrl(product.imageUrl);
+
+            // Card Structure
+            const card = document.createElement('div');
+            card.className = 'product-card';
+
+            // Image Area
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'image-container';
+
+            const image = document.createElement('img');
+            image.src = finalImageUrl;
+            image.alt = product.name;
+            
+            image.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://placehold.co/400x225/9ca3af/ffffff?text=Image+Not+Found'; 
+            };
+            imageContainer.appendChild(image);
+            card.appendChild(imageContainer);
+            
+            // Content Area
+            const content = document.createElement('div');
+            content.className = 'product-content';
+
+            const title = document.createElement('h3');
+            title.textContent = product.name;
+            content.appendChild(title);
+
+            const description = document.createElement('p');
+            description.textContent = product.description;
+            content.appendChild(description);
+            
+            // Footer (Price & Rating)
+            const footer = document.createElement('div');
+            footer.className = 'product-footer';
+
+            const priceText = document.createElement('span');
+            priceText.className = 'price';
+            priceText.textContent = `$${product.price.toFixed(2)}`;
+            footer.appendChild(priceText);
+            
+            const ratingText = document.createElement('span');
+            ratingText.className = 'rating';
+            ratingText.innerHTML = `
+                <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z"/>
+                </svg>
+                ${product.rating.toFixed(1)}
+            `;
+            footer.appendChild(ratingText);
+
+            content.appendChild(footer);
+            
+            // Add to Cart Button
+            const button = document.createElement('button');
+            button.className = 'add-to-cart-btn';
+            button.textContent = 'Add to Cart';
+            button.onclick = () => showMessage(`${product.name} added to cart!`);
+            content.appendChild(button);
+
+            card.appendChild(content);
+            return card;
+        }
+
+        /**
+         * Main function to load mock data and render products to the DOM.
+         */
+        async function fetchAndRenderProducts() {
+            try {
+                // Use the embedded MOCK_PRODUCTS data structure
+                const data = { products: MOCK_PRODUCTS };
+
+                if (!data || !Array.isArray(data.products)) {
+                    productListContainer.innerHTML = '<p id="error-message">Error: Product data structure is invalid.</p>';
+                    return;
+                }
+
+                if (loadingMessage) loadingMessage.remove();
+
+                // Render each product card
+                data.products.forEach(product => {
+                    const card = createProductCard(product);
+                    productListContainer.appendChild(card);
+                });
+
+            } catch (error) {
+                // This catch block will only fire if there's an error in rendering, not fetching.
+                console.error("Failed to render product data:", error);
+                
+                if (loadingMessage) {
+                    loadingMessage.textContent = 'Error loading products. Check console for details.';
+                    loadingMessage.style.color = 'red';
+                } else {
+                    productListContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: red; font-size: 1.125rem;">Error loading products. Check console for details.</p>';
+                }
+            }
+        }
+
+        // Initialize the application
+        window.onload = fetchAndRenderProducts;
+    </script>
+</body>
+</html>
