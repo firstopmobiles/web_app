@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phones - Shop</title>
+    <title>NextGen Phones - Shop</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Configure Tailwind to use the custom dark green color for primary elements -->
@@ -94,8 +94,8 @@
         }
         
         .product-footer {
-            display: flex;
-            justify-content: space-between;
+            /* No longer uses space-between since there's only price */
+            display: flex; 
             align-items: center;
             padding-top: 1rem;
             border-top: 1px solid #f3f4f6;
@@ -184,11 +184,11 @@
     <!-- Notification Message Box -->
     <div id="message-box" role="alert" aria-live="assertive"></div>
 
-    <!-- Header / Navigation Bar (Cart button removed) -->
+    <!-- Header / Navigation Bar -->
     <header class="bg-white shadow-lg sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <!-- Title uses custom dark green color -->
-            <h1 class="text-3xl font-extrabold text-primary-dark-green tracking-wider">First|Stop</h1>
+            <h1 class="text-3xl font-extrabold text-primary-dark-green tracking-wider">NextGen Phones</h1>
         </div>
     </header>
 
@@ -213,7 +213,7 @@
     <!-- Footer -->
     <footer class="bg-gray-800 text-white mt-16 py-8">
         <div class="max-w-7xl mx-auto px-4 text-center text-sm">
-            &copy; 2025 FirstStop. All rights reserved. | 
+            &copy; 2025 NextGen Phones. All rights reserved. | Powered by Gemini
         </div>
     </footer>
 
@@ -226,8 +226,8 @@
                     <img id="modal-product-image" src="" alt="Product Image" class="w-full h-auto object-contain max-h-[350px] rounded-lg shadow-xl">
                 </div>
                 <div class="modal-details-col p-4">
-                    <h2 id="modal-product-name" class="text-4xl font-extrabold text-gray-900 mb-3"></h2>
-                    <div id="modal-product-rating" class="rating text-2xl mb-4 text-accent-amber"></div>
+                    <h2 id="modal-product-name" class="text-4xl font-extrabold text-gray-900 mb-6"></h2>
+                    <!-- RATING REMOVED FROM HERE -->
                     <p id="modal-product-description" class="text-gray-600 mb-8 text-lg leading-relaxed"></p>
                     <div class="flex items-baseline justify-between mb-8 pb-4 border-b border-gray-200">
                         <span class="text-gray-500 text-2xl font-semibold">Price:</span>
@@ -258,7 +258,7 @@
                 "description": "The latest flagship device with A18 Bionic chip, ProMotion display, and a stunning Titanium design. Experience unparalleled performance and camera quality.",
                 "price": 4449.00,
                 "imageUrl": "https://media.rueducommerce.fr/ld/products/00/06/16/65/LD0006166525.jpg",
-                "rating": 4.8
+                "rating": 4.8 // Kept in data, but not displayed
             },
             {
                 "id": 102,
@@ -333,44 +333,6 @@
         // ====================================================================
 
         /**
-         * Generates SVG star icons based on the rating value.
-         * @param {number} rating - The product rating (0.0 to 5.0).
-         * @returns {string} HTML string containing 5 star SVGs.
-         */
-        function generateStarRating(rating) {
-            const maxStars = 5;
-            let starsHtml = '';
-            
-            for (let i = 1; i <= maxStars; i++) {
-                let fillClass;
-                // Full Star if rating >= current star index
-                if (rating >= i) {
-                    fillClass = 'text-accent-amber fill-current';
-                } 
-                // Half Star logic (optional, keeping it simple for now)
-                else if (rating >= i - 0.5) {
-                    fillClass = 'text-accent-amber fill-current'; // Using full fill for simplicity, but could be gray
-                } 
-                // Empty Star
-                else {
-                    fillClass = 'text-gray-300 fill-current';
-                }
-
-                starsHtml += `
-                    <svg class="w-5 h-5 inline-block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z" class="${fillClass}"/>
-                    </svg>
-                `;
-            }
-
-            return `
-                ${starsHtml}
-                <span class="ml-2 font-semibold text-gray-700 text-base">${rating.toFixed(1)}</span>
-            `;
-        }
-
-
-        /**
          * Shows a temporary notification message on the screen.
          * @param {string} message - The message to display.
          */
@@ -430,9 +392,6 @@
             document.getElementById('modal-product-description').textContent = product.description;
             document.getElementById('modal-product-price').textContent = `AED ${product.price.toFixed(2)}`;
             
-            // Render the generated stars
-            document.getElementById('modal-product-rating').innerHTML = generateStarRating(product.rating);
-
             // Re-attach Add to Cart button handler in the modal 
             // Clear existing listener to prevent duplicate firing
             modalCartButton.onclick = null; 
@@ -490,23 +449,20 @@
             description.textContent = product.description.length > 80 ? product.description.substring(0, 80) + '...' : product.description;
             content.appendChild(description);
             
-            // --- Footer (Price and Rating) ---
+            // --- Footer (Price only) ---
             const footer = document.createElement('div');
-            footer.className = 'product-footer';
+            // Changed from justify-content: space-between to just align-items: center 
+            // since price is the only element left
+            footer.className = 'product-footer'; 
 
             const priceText = document.createElement('span');
             priceText.className = 'price';
             priceText.textContent = `AED ${product.price.toFixed(2)}`;
             footer.appendChild(priceText);
             
-            const ratingText = document.createElement('span');
-            ratingText.className = 'rating flex items-center';
-            ratingText.innerHTML = generateStarRating(product.rating);
-            footer.appendChild(ratingText);
-
-            content.appendChild(footer);
+            // RATING REMOVED FROM HERE
             
-            // *** REMOVED 'ADD TO CART' BUTTON FROM PRODUCT CARD ***
+            content.appendChild(footer);
             
             card.appendChild(content);
             return card;
@@ -582,4 +538,3 @@
     </script>
 </body>
 </html>
-
