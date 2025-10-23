@@ -70,6 +70,43 @@
             object-fit: contain;
             transition: transform 0.3s ease;
         }
+        
+        /* Custom Styles for Product Card Content (since the button was removed) */
+        .product-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1; /* Allows the content area to expand */
+        }
+
+        .product-content h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .product-content p {
+            color: #6b7280;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            flex-grow: 1; /* Allows description to take space */
+        }
+        
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6;
+        }
+
+        .product-footer .price {
+            font-weight: 900;
+            font-size: 1.75rem;
+            color: #003300; /* primary-dark-green */
+        }
+
 
         /* Modal specific styles */
         .modal {
@@ -469,16 +506,8 @@
 
             content.appendChild(footer);
             
-            // --- Button ---
-            const button = document.createElement('button');
-            button.className = 'add-to-cart-btn bg-primary-dark-green hover:bg-primary-dark-green-hover text-white font-semibold py-3 rounded-lg transition duration-200 mt-2 shadow-md hover:shadow-lg';
-            button.textContent = 'Add to Cart';
-            button.onclick = (e) => {
-                e.stopPropagation(); // Prevent the card's onclick (modal) from firing
-                showMessage(`${product.name} added to cart!`);
-            };
-            content.appendChild(button);
-
+            // *** REMOVED 'ADD TO CART' BUTTON FROM PRODUCT CARD ***
+            
             card.appendChild(content);
             return card;
         }
