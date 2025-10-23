@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FirstStop - Standard CSS/JS</title>
+    <style>
+        /* ======================================= */
+        /* 1. Global & Utility Styles              */
+        /* ======================================= */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+        :root {
+            --color-primary: #4f46e5;      /* Indigo-600 */
+            --color-primary-dark: #3730a3; /* Indigo-700 */
+            --color-secondary: #99cc00;    /* Light background */
+            --color-header: #365314;       /* Lime-900 */
+            --color-success: #10b981;      /* Green-500 */
+            --color-warning: #f59e0b;      /* Yellow-500 */
+            --color-text-dark: #1f2937;    /* Gray-900 */
+            --color-text-light: #d1d5db;   /* Indigo-200 / Gray-400 */
+            --max-width: 1280px;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-secondary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #e0e7ff; }
+        ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #003300; }
+
+        /* ======================================= */
+        /* 2. Header & Footer Styles               */
+        /* ======================================= */
+        header {
+            background-color: var(--color-header);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        header .container {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        header h1 {
+            font-size: 1.875rem; /* 3xl */
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.025em; /* tracking-tight */
+        }
+
+        header p {
+            color: #c7d2fe; /* Indigo-200 */
+            font-size: 0.875rem; /* text-sm */
+            margin-top: 0.25rem;
+        }
+
+        footer {
+            background-color: #1f2937; /* Gray-800 */
+            margin-top: auto;
+            color: #9ca3af; /* Gray-400 */
+            font-size: 0.875rem;
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+
+        /* ======================================= */
+        /* 3. Main Content & Grid Styles           */
+        /* ======================================= */
+        main {
+            flex-grow: 1;
+            padding-top: 2.5rem;
+            padding-bottom: 2.5rem;
+        }
+
+        main h2 {
+            font-size: 2.25rem; /* 4xl */
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        #product-list {
+            display: grid;
+            gap: 2rem; /* gap-8 */
+            grid-template-columns: repeat(1, 1fr); /* Default for mobile */
+        }
+
+        #loading-message {
+            grid-column: 1 / -1; /* col-span-full */
+            text-align: center;
+            color: #6b7280; /* text-gray-500 */
+            font-size: 1.125rem;
+        }
+
+        /* Responsive grid adjustments */
+        @media (min-width: 640px) { /* sm */
+            #product-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            main h2 {
+                text-align: left;
+            }
+        }
+        @media (min-width: 1024px) { /* lg */
+            #product-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        @media (min-width: 1280px) { /* xl */
+            #product-list {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        /* ======================================= */
+        /* 4. Product Card Styles                  */
+        /* ======================================= */
+        .product-card {
+            background-color: white;
+            border-radius: 0.75rem; /* rounded-xl */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1); /* shadow-lg */
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); /* shadow-2xl */
+        }
+
+        .image-container {
+            overflow: hidden;
+            background-color: #f3f4f6; /* bg-gray-100 */
+            /* Using a common technique for aspect ratio */
+            position: relative;
+            padding-top: 75%; /* 4/3 aspect ratio, use 56.25% for 16/9 (aspect-video) */
+        }
+        
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .image-container img {
+            transform: scale(1.05);
+        }
+
+        .product-content {
+            padding: 1.25rem; /* p-5 */
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-content h3 {
+            font-size: 1.25rem; /* xl */
+            font-weight: 600;
+            color: var(--color-text-dark);
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* truncate */
+        }
+
+        .product-content p {
+            color: #6b7280; /* Gray-500 */
+            font-size: 0.875rem; /* sm */
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .product-footer {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #f3f4f6; /* border-gray-100 */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-size: 1.5rem; /* 2xl */
+            font-weight: 700;
+            color: var(--color-primary);
+        }
+
+        .rating {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--color-warning);
+            display: flex;
+            align-items: center;
+        }
+
+        .rating svg {
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.25rem;
+            fill: currentColor;
+        }
+
+        /* ======================================= */
+        /* 5. Button & Notification Styles         */
+        /* ======================================= */
+        .add-to-cart-btn {
+            margin-top: 1rem;
+            width: 100%;
+            background-color: var(--color-primary);
+            color: white;
+            padding: 0.75rem 0; /* py-3 */
+            border-radius: 0.5rem; /* rounded-lg */
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+
+        .add-to-cart-btn:hover {
+            background-color: var(--color-primary-dark);
+            transform: scale(1.01);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .add-to-cart-btn:active {
+            transform: scale(0.95);
+        }
+        
+        /* Notification Box */
+        #message-box {
+            position: fixed;
+            bottom: 1.25rem; /* bottom-5 */
+            right: 1.25rem; /* right-5 */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            background-color: var(--color-success);
+            color: white;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            opacity: 0;
+            transform: translateY(100%);
+            z-index: 50;
+        }
+
+        #message-box.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <header>
+        <div class="container">
+            <h1>FirstStop</h1>
+            <p>AL NOOR AL ABYADH MOBILE PHONE TR L.L.C.</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Today's Special</h2>
+            
+            <div id="product-list">
+                <p id="loading-message">Loading products...</p>
+            </div>
+        </div>
+        
+        <div id="message-box">
+            Item added to cart!
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            &copy; 2025 FirstStop. All rights reserved. | Mobile : 0565154777 | safarihypermarketuae
+        </div>
+    </footer>
+
+    <script>
+        // Get the container element for products
+        const productListContainer = document.getElementById('product-list');
+        const loadingMessage = document.getElementById('loading-message');
+        const messageBox = document.getElementById('message-box');
+
+        /**
+         * Shows a temporary notification message on the screen.
+         * @param {string} message - The message to display.
+         */
+        function showMessage(message) {
+            if (!messageBox) return; // Safety check
+
+            messageBox.textContent = message;
+            messageBox.classList.add('show'); // Use the 'show' class for visibility
+
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+            }, 2000);
+        }
+
+        /**
+         * Cleans an image URL by extracting the true URL if it's wrapped in a Google Search query.
+         * @param {string} rawUrl - The potentially wrapped image URL.
+         * @returns {string} The corrected, direct image URL.
+         */
+        function sanitizeImageUrl(rawUrl) {
+            if (rawUrl.startsWith('https://www.google.com/search?q=')) {
+                try {
+                    const urlParams = new URLSearchParams(rawUrl.split('?')[1]);
+                    const encodedUrl = urlParams.get('q');
+                    if (encodedUrl) {
+                        return decodeURIComponent(encodedUrl);
+                    }
+                } catch (e) {
+                    console.warn("Error sanitizing image URL. Using original:", rawUrl, e);
+                }
+            }
+            return rawUrl;
+        }
+
+        /**
+         * Creates and returns a product card element.
+         * @param {object} product - The product data object.
+         * @returns {HTMLElement} The dynamically created product card.
+         */
+        function createProductCard(product) {
+            const finalImageUrl = sanitizeImageUrl(product.imageUrl);
+
+            // Card Wrapper
+            const card = document.createElement('div');
+            card.className = 'product-card'; // Replaced Tailwind classes
+
+            // Image Container
+            const imageContainer = document.createElement('div');
+            imageContainer.className = 'image-container';
+
+            const image = document.createElement('img');
+            image.src = finalImageUrl;
+            image.alt = product.name;
+            // No need for group-hover classes here, handled by pure CSS
+            
+            // Fallback image
+            image.onerror = function() {
+                this.onerror = null;
+                this.src = 'https://placehold.co/400x300/9ca3af/ffffff?text=Image+Not+Found';
+            };
+            imageContainer.appendChild(image);
+            card.appendChild(imageContainer);
+            
+            // Content Area
+            const content = document.createElement('div');
+            content.className = 'product-content';
+
+            // Title
+            const title = document.createElement('h3');
+            title.textContent = product.name;
+            content.appendChild(title);
+
+            // Description
+            const description = document.createElement('p');
+            description.textContent = product.description;
+            content.appendChild(description);
+            
+            // Footer (Rating and Price)
+            const footer = document.createElement('div');
+            footer.className = 'product-footer';
+
+            const priceText = document.createElement('span');
+            priceText.className = 'price';
+            priceText.textContent = `$${product.price.toFixed(2)}`;
+            footer.appendChild(priceText);
+            
+            const ratingText = document.createElement('span');
+            ratingText.className = 'rating';
+            ratingText.innerHTML = `
+                <svg class="w-4 h-4 mr-1 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z"/>
+                </svg>
+                ${product.rating.toFixed(1)}
+            `;
+            footer.appendChild(ratingText);
+
+            content.appendChild(footer);
+            
+            // Button
+            const button = document.createElement('button');
+            button.className = 'add-to-cart-btn';
+            button.textContent = 'Add to Cart';
+            // Event listener uses the fixed showMessage function
+            button.onclick = () => showMessage(`${product.name} added to cart!`);
+            content.appendChild(button);
+
+            card.appendChild(content);
+
+            return card;
+        }
+
+        /**
+         * Main function to fetch JSON from 'products.json' and display products.
+         */
+        async function fetchAndRenderProducts() {
+            try {
+                // NOTE: This will require a 'products.json' file to be available
+                const response = await fetch('products.json');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+
+                if (!data || !Array.isArray(data.products)) {
+                    productListContainer.innerHTML = '<p id="error-message">Error: JSON structure is invalid or products array is missing.</p>';
+                    return;
+                }
+
+                // Clear loading message
+                if (loadingMessage) loadingMessage.remove();
+
+                // 2. Iterate through products and create cards
+                data.products.forEach(product => {
+                    const card = createProductCard(product);
+                    productListContainer.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error("Failed to fetch or parse product data:", error);
+                
+                if (loadingMessage) {
+                    loadingMessage.textContent = 'Error loading products. Check console for details.';
+                    loadingMessage.style.color = 'red';
+                } else {
+                    productListContainer.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: red; font-size: 1.125rem;">Error loading products. Check console for details.</p>';
+                }
+            }
+        }
+
+        // Run the rendering function when the window loads
+        window.onload = fetchAndRenderProducts;
+
+    </script>
+</body>
+</html>
