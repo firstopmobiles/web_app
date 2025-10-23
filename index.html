@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FirstStop - Minimal CSS</title>
+    <title>FirstStop - Mobile E-commerce</title>
     <style>
         /* ==================================================================== */
         /* 1. GLOBAL & RESET STYLES (Minimal)                                   */
         /* ==================================================================== */
         body {
-            font-family: sans-serif; /* System default font */
+            font-family: 'Inter', sans-serif; /* Using Inter for aesthetics */
             background-color: #f4f4f4; /* Light gray background */
             min-height: 100vh;
             display: flex;
@@ -22,10 +22,11 @@
             max-width: 1280px;
             margin: 0 auto;
             padding: 0 1rem;
+            width: 100%;
         }
         
         h1, h2, h3, p {
-            font-family: sans-serif;
+            font-family: inherit;
             margin: 0;
             padding: 0;
         }
@@ -34,12 +35,13 @@
         /* 2. HEADER & FOOTER STYLES (Minimal)                                  */
         /* ==================================================================== */
         header {
-            background-color: #145214;
+            background-color: #145214; /* Deep Green */
             color: white;
             padding: 0.5rem 0;
             position: sticky;
             top: 0;
             z-index: 10;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         header .container {
@@ -47,7 +49,9 @@
         }
 
         header h1 {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
         }
 
         header p {
@@ -73,15 +77,16 @@
         }
 
         main h2 {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 1.5rem;
             text-align: center;
+            color: #145214;
         }
 
         #product-list {
             display: grid;
-            gap: 1rem;
+            gap: 1.5rem;
             grid-template-columns: repeat(1, 1fr); /* Mobile default */
         }
 
@@ -89,7 +94,8 @@
             grid-column: 1 / -1; 
             text-align: center;
             color: #666;
-            font-size: 1rem;
+            font-size: 1.125rem;
+            padding: 2rem;
         }
 
         /* Responsive Breakpoints (Basic Layout) */
@@ -110,10 +116,18 @@
         .product-card {
             background-color: white;
             border: 1px solid #ddd;
-            border-radius: 4px;
+            border-radius: 8px; /* Slightly more rounded */
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer; /* Indicate it's clickable */
+        }
+        
+        .product-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
         }
 
         .image-container {
@@ -128,7 +142,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* Use contain for phones to prevent cropping */
+            transition: opacity 0.3s;
         }
 
         .product-content {
@@ -139,8 +154,8 @@
         }
 
         .product-content h3 {
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 1.2rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
             white-space: nowrap;
             overflow: hidden;
@@ -151,7 +166,8 @@
             color: #666;
             font-size: 0.85rem;
             margin-bottom: 0.5rem;
-            flex-grow: 1;
+            flex-grow: 1; /* Pushes footer and button to the bottom */
+            line-height: 1.4;
         }
 
         .product-footer {
@@ -164,22 +180,22 @@
         }
 
         .price {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #007bff; /* Primary link color for price */
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #007bff; /* Primary blue for price */
         }
 
         .rating {
-            font-size: 0.8rem;
-            color: #ffc107; /* Standard warning color for rating */
+            font-size: 0.9rem;
+            color: #ffc107; 
             display: flex;
             align-items: center;
         }
 
         .rating svg {
-            width: 0.9rem;
-            height: 0.9rem;
-            margin-right: 0.2rem;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.3rem;
             fill: currentColor;
         }
 
@@ -191,11 +207,12 @@
             width: 100%;
             background-color: #007bff;
             color: white;
-            padding: 0.6rem 0;
+            padding: 0.75rem 0;
             border-radius: 4px;
-            font-weight: bold;
+            font-weight: 600;
             border: none;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
 
         .add-to-cart-btn:hover {
@@ -206,19 +223,149 @@
             position: fixed;
             bottom: 1rem;
             right: 1rem;
-            padding: 0.75rem;
-            border-radius: 4px;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
             background-color: #28a745; /* Success Green */
             color: white;
             opacity: 0;
             transform: translateY(100%);
             transition: opacity 0.3s ease, transform 0.3s ease;
             z-index: 50;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
         }
 
         #message-box.show {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        /* ==================================================================== */
+        /* 6. MODAL STYLES (Popup Window) - NEW                                 */
+        /* ==================================================================== */
+        .modal {
+            /* Hidden by default */
+            display: none; 
+            position: fixed; 
+            z-index: 1000; /* High z-index */
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); /* Darker overlay */
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto; 
+            padding: 20px;
+            width: 90%; 
+            max-width: 750px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .close-btn {
+            color: #aaa;
+            font-size: 36px;
+            font-weight: 300;
+            cursor: pointer;
+            position: absolute;
+            top: 5px;
+            right: 15px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover,
+        .close-btn:focus {
+            color: #333;
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column; /* Stack image and details on small screens */
+            gap: 1.5rem;
+            padding-top: 10px;
+        }
+
+        .modal-image-container {
+            padding-top: 75%; /* 4:3 Aspect Ratio */
+            position: relative;
+            border-radius: 6px;
+            overflow: hidden;
+            background-color: #eee;
+        }
+
+        .modal-image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .modal-details {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-details h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #145214;
+        }
+
+        .modal-details p {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .modal-price-rating {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding: 0.5rem 0;
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Responsive adjustment for desktop/larger screens */
+        @media (min-width: 600px) {
+            .modal-content {
+                margin-top: 5%;
+            }
+            .modal-body {
+                flex-direction: row; /* Side-by-side on larger screens */
+            }
+            .modal-image-container, .modal-details {
+                flex: 1; 
+            }
+            .modal-image-container {
+                /* Reset padding-top and use a fixed height for side-by-side layout */
+                padding-top: 0;
+                height: 350px; 
+            }
+        }
+        
+        /* Modal Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
     </style>
 </head>
@@ -255,20 +402,50 @@
         </div>
     </footer>
 
+    <!-- Modal Structure for Product Details (NEW) -->
+    <div id="product-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div class="modal-body">
+                <div class="modal-image-container">
+                    <img id="modal-product-image" src="" alt="Product Image">
+                </div>
+                <div class="modal-details">
+                    <h3 id="modal-product-name"></h3>
+                    <p id="modal-product-description"></p>
+                    
+                    <div class="modal-price-rating">
+                        <span id="modal-product-price" class="price"></span>
+                        <!-- Rating element will be populated dynamically -->
+                        <span id="modal-product-rating" class="rating"></span>
+                    </div>
+
+                    <!-- This button needs a new listener when the modal opens -->
+                    <button class="add-to-cart-btn">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script>
         // ====================================================================
-        // JAVASCRIPT LOGIC (Updated with cleaned-up mock data)
+        // JAVASCRIPT LOGIC 
         // ====================================================================
         const productListContainer = document.getElementById('product-list');
         const loadingMessage = document.getElementById('loading-message');
         const messageBox = document.getElementById('message-box');
 
-        // Embedded Mock Product Data (URLs are now direct placeholder links)
+        // Modal DOM elements
+        const productModal = document.getElementById('product-modal');
+        const closeBtn = document.querySelector('.close-btn');
+
+        // Embedded Mock Product Data
         const MOCK_PRODUCTS = [
             {
                 "id": 101,
                 "name": "IPhone 16 Pro Max 256GB",
-                "description": "256GB",
+                "description": "The latest flagship device with A18 Bionic chip, ProMotion display, and a stunning Titanium design. Experience unparalleled performance and camera quality.",
                 "price": 4449.00,
                 "imageUrl": "https://media.rueducommerce.fr/ld/products/00/06/16/65/LD0006166525.jpg",
                 "rating": 4.8
@@ -276,7 +453,7 @@
             {
                 "id": 102,
                 "name": "Samsung S25 Ultra 256GB",
-                "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing.",
+                "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing. Features a massive 200MP camera and built-in S Pen.",
                 "price": 3149.00,
                 "imageUrl": "https://www.lotmobiles.com/media/catalog/product/cache/882ea40e1a518d2f436622b2ec94acdf/s/a/samsung_galaxy_s25_ultra_5g_titanium_whitesilver_.jpg",
                 "rating": 4.6
@@ -284,7 +461,7 @@
             {
                 "id": 103,
                 "name": "HONOR 400 512GB",
-                "description": "Monitors heart rate, sleep, and steps. Waterproof with a stunning AMOLED display.",
+                "description": "A powerful mid-range phone with exceptional battery life and a stunning 120Hz OLED display. Perfect for gaming and everyday use.",
                 "price": 1499.00,
                 "imageUrl": "https://www.yugatech.com/wp-content/uploads/2025/05/honor-400-fi.jpg",
                 "rating": 4.9
@@ -292,7 +469,7 @@
             {
                 "id": 104,
                 "name": "VIVO V60 256GB",
-                "description": "Tactile brown switches, full RGB backlight, and ergonomic wrist rest for long sessions.",
+                "description": "Known for its unique gimbal stabilization camera system, delivering ultra-stable videos even in motion. Stylish design and fast charging capability.",
                 "price": 1699.00,
                 "imageUrl": "https://cdn.gadgetbytenepal.com/wp-content/uploads/2025/08/Vivo-V60-Price-in-Nepal-2025.jpg",
                 "rating": 4.7
@@ -300,7 +477,7 @@
             {
                 "id": 105,
                 "name": "Samsung FOLD 7 256GB",
-                "description": "256GB",
+                "description": "The ultimate folding experience. Features a thinner hinge, IPX8 water resistance, and enhanced multitasking features for maximum productivity.",
                 "price": 5549.00,
                 "imageUrl": "https://images.samsung.com/ae/smartphones/galaxy-z-fold7/buy/product_color_jetBlack_PC.png",
                 "rating": 4.3
@@ -308,7 +485,7 @@
             {
                 "id": 106,
                 "name": "IPhone 16 Plus 128 GB",
-                "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing.",
+                "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing. Great battery life and an expansive Super Retina XDR display.",
                 "price": 3099.00,
                 "imageUrl": "https://m.media-amazon.com/images/I/71GFlXnPnZL.jpg",
                 "rating": 4.4
@@ -316,7 +493,7 @@
             {
                 "id": 107,
                 "name": "VIVO V60 LITE 256GB",
-                "description": "Monitors heart rate, sleep, and steps. Waterproof with a stunning AMOLED display.",
+                "description": "A lightweight and sleek device, perfect for users who prioritize portability and style without compromising on core performance and camera quality.",
                 "price": 1099.00,
                 "imageUrl": "https://www.techandtech.tech/wp-content/uploads/Image_%D9%A2%D9%A0%D9%A2%D9%A5-%D9%A0%D9%A9-%D9%A2%D9%A5_%D9%A1%D9%A1%D9%A3%D9%A6%D9%A2%D9%A7_%D9%A9%D9%A5%D9%A6-1024x768.jpg",
                 "rating": 4.9
@@ -324,13 +501,17 @@
             {
                 "id": 108,
                 "name": "OPPO Reno 14F 256GB",
-                "description": "Tactile brown switches, full RGB backlight, and ergonomic wrist rest for long sessions.",
+                "description": "Equipped with a futuristic design, an innovative portrait mode camera, and extremely fast VOOC charging technology to keep you going.",
                 "price": 1399.00,
                 "imageUrl": "https://innwa.com.mm/storage/product/feature_image/20250712073701JZET99RMFGQHME7N0F4BD9VY.webp",
                 "rating": 4.6
             }
         ];
 
+
+        // ====================================================================
+        // UTILITY FUNCTIONS
+        // ====================================================================
 
         /**
          * Shows a temporary notification message on the screen.
@@ -347,20 +528,79 @@
             }, 2000);
         }
 
-        // NOTE: sanitizeImageUrl is removed as the MOCK_PRODUCTS array now uses direct placeholder URLs.
-        
+        // ====================================================================
+        // MODAL LOGIC (NEW)
+        // ====================================================================
+
+        // When the user clicks on (x), close the modal
+        if (closeBtn) {
+            closeBtn.onclick = function() {
+                productModal.style.display = 'none';
+            }
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == productModal) {
+                productModal.style.display = 'none';
+            }
+        }
+
+        /**
+         * Populates the modal with product data and displays it.
+         * @param {object} product - The product data object.
+         */
+        function openProductModal(product) {
+            document.getElementById('modal-product-image').src = product.imageUrl;
+            document.getElementById('modal-product-image').alt = product.name;
+            
+            // Image fallback for the modal
+            document.getElementById('modal-product-image').onerror = function() {
+                this.onerror = null;
+                this.src = 'https://placehold.co/400x300/9ca3af/ffffff?text=Image+Not+Found'; 
+            };
+
+            document.getElementById('modal-product-name').textContent = product.name;
+            document.getElementById('modal-product-description').textContent = product.description;
+            document.getElementById('modal-product-price').textContent = `AED ${product.price.toFixed(2)}`;
+            
+            const ratingElement = document.getElementById('modal-product-rating');
+            ratingElement.innerHTML = `
+                <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.41l6.56-.955L10 1l2.951 5.455 6.56.955-4.756 4.135 1.123 6.545z"/>
+                </svg>
+                ${product.rating.toFixed(1)}
+            `;
+
+            // Re-attach Add to Cart button handler in the modal 
+            const modalCartButton = productModal.querySelector('.add-to-cart-btn');
+            modalCartButton.onclick = () => {
+                productModal.style.display = 'none'; // Close modal after adding
+                showMessage(`${product.name} added to cart!`);
+            };
+
+            productModal.style.display = 'block';
+        }
+
+
+        // ====================================================================
+        // PRODUCT CARD RENDERING
+        // ====================================================================
+
         /**
          * Creates and returns a product card element using defined CSS classes.
          * @param {object} product - The product data object.
          * @returns {HTMLElement} The dynamically created product card.
          */
         function createProductCard(product) {
-            // Use the direct image URL as it is now clean.
             const finalImageUrl = product.imageUrl; 
 
             // Card Structure
             const card = document.createElement('div');
             card.className = 'product-card';
+            
+            // *** ADDED: Click handler to open modal on card click ***
+            card.onclick = () => openProductModal(product); 
 
             // Image Area
             const imageContainer = document.createElement('div');
@@ -370,9 +610,9 @@
             image.src = finalImageUrl;
             image.alt = product.name;
             
+            // Image fallback
             image.onerror = function() {
                 this.onerror = null;
-                // Fallback image for consistent aspect ratio
                 this.src = 'https://placehold.co/400x300/9ca3af/ffffff?text=Image+Not+Found'; 
             };
             imageContainer.appendChild(image);
@@ -387,7 +627,8 @@
             content.appendChild(title);
 
             const description = document.createElement('p');
-            description.textContent = product.description;
+            // Truncate description for card view
+            description.textContent = product.description.length > 50 ? product.description.substring(0, 50) + '...' : product.description;
             content.appendChild(description);
             
             // Footer (Price & Rating)
@@ -411,11 +652,15 @@
 
             content.appendChild(footer);
             
-            // Add to Cart Button
+            // Add to Cart Button (The one on the card)
             const button = document.createElement('button');
             button.className = 'add-to-cart-btn';
             button.textContent = 'Add to Cart';
-            button.onclick = () => showMessage(`${product.name} added to cart!`);
+            // *** ADDED: Stop propagation to prevent modal from opening when button is clicked ***
+            button.onclick = (e) => {
+                e.stopPropagation(); 
+                showMessage(`${product.name} added to cart!`);
+            };
             content.appendChild(button);
 
             card.appendChild(content);
@@ -460,17 +705,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
