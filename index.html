@@ -15,7 +15,7 @@
             display: flex;
             flex-direction: column;
             margin: 0;
-            color: #fff;
+            color: #333;
         }
 
         .container {
@@ -25,7 +25,6 @@
         }
         
         h1, h2, h3, p {
-		    color: black;
             margin: 0;
             padding: 0;
         }
@@ -34,7 +33,7 @@
         /* 2. HEADER & FOOTER STYLES (Minimal)                                  */
         /* ==================================================================== */
         header {
-            background-color: #003300;
+            background-color: #333;
             color: white;
             padding: 0.5rem 0;
             position: sticky;
@@ -56,7 +55,7 @@
         }
 
         footer {
-            background-color: #003300;
+            background-color: #333;
             margin-top: auto;
             color: #ccc;
             font-size: 0.8rem;
@@ -118,7 +117,7 @@
 
         .image-container {
             position: relative;
-            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            padding-top: 75%; /* 4:3 Aspect Ratio (300/400) matches mock data */
             background-color: #eee;
         }
         
@@ -257,48 +256,116 @@
 
     <script>
         // ====================================================================
-        // JAVASCRIPT LOGIC (Updated to use mock data)
+        // JAVASCRIPT LOGIC (Updated with cleaned-up mock data)
         // ====================================================================
         const productListContainer = document.getElementById('product-list');
         const loadingMessage = document.getElementById('loading-message');
         const messageBox = document.getElementById('message-box');
 
-        // Embedded Mock Product Data to replace the failing fetch('products.json')
+        // Embedded Mock Product Data (URLs are now direct placeholder links)
         const MOCK_PRODUCTS = [
             {
-                name: "Smartphone X20",
-                description: "A high-performance smartphone with a powerful camera and long-lasting battery.",
-                price: 799.99,
-                rating: 4.5,
-                imageUrl: "https://placehold.co/400x225/203050/fff?text=Phone+X20"
+                "id": 101,
+                "name": "IPhone 16 Pro Max",
+                "description": "256GB",
+                "price": 249.99,
+                "imageUrl": "https://placehold.co/400x300/4f46e5/ffffff?text=IPhone+16+Pro+Max",
+                "rating": 4.8
             },
             {
-                name: "Wireless Earbuds Pro",
-                description: "Crystal clear audio, active noise cancellation, and a sleek charging case.",
-                price: 149.50,
-                rating: 4.7,
-                imageUrl: "https://placehold.co/400x225/806040/fff?text=Earbuds+Pro"
+                "id": 102,
+                "name": "Quantum Mini Portable SSD 1TB",
+                "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing.",
+                "price": 129.50,
+                "imageUrl": "https://placehold.co/400x300/10b981/ffffff?text=Quantum+SSD",
+                "rating": 4.6
             },
             {
-                name: "4K Smart TV 55\"",
-                description: "Vivid colors, smart features, and ultra-thin bezels for an immersive viewing experience.",
-                price: 1250.00,
-                rating: 4.2,
-                imageUrl: "https://placehold.co/400x225/404040/fff?text=Smart+TV"
+                "id": 103,
+                "name": "Aura Smartwatch Series 5",
+                "description": "Monitors heart rate, sleep, and steps. Waterproof with a stunning AMOLED display.",
+                "price": 199.00,
+                "imageUrl": "https://placehold.co/400x300/ef4444/ffffff?text=Aura+Smartwatch",
+                "rating": 4.9
             },
             {
-                name: "Smartwatch Elite",
-                description: "Track your fitness, monitor health, and stay connected with notifications all day.",
-                price: 299.00,
-                rating: 4.1,
-                imageUrl: "https://placehold.co/400x225/107050/fff?text=Watch+Elite"
+                "id": 104,
+                "name": "ErgoFlow Mechanical Keyboard",
+                "description": "Tactile brown switches, full RGB backlight, and ergonomic wrist rest for long sessions.",
+                "price": 155.99,
+                "imageUrl": "https://placehold.co/400x300/3b82f6/ffffff?text=ErgoFlow+Keyboard",
+                "rating": 4.7
             },
             {
-                name: "Laptop Z13",
-                description: "Lightweight and powerful laptop perfect for work and creative tasks on the go.",
-                price: 1599.00,
-                rating: 4.6,
-                imageUrl: "https://placehold.co/400x225/703080/fff?text=Laptop+Z13"
+                "id": 105,
+                "name": "Zenith 4K Webcam",
+                "description": "Ultra HD video quality with auto-focus and built-in privacy shutter. Perfect for streaming.",
+                "price": 89.00,
+                "imageUrl": "https://placehold.co/400x300/f59e0b/ffffff?text=Zenith+Webcam",
+                "rating": 4.5
+            },
+            {
+                "id": 106,
+                "name": "Chroma LED Desk Lamp",
+                "description": "Dimmable, color-changing LED lamp with wireless charging base for your phone.",
+                "price": 65.00,
+                "imageUrl": "https://placehold.co/400x300/06b6d4/ffffff?text=Chroma+Lamp",
+                "rating": 4.4
+            },
+            {
+                "id": 107,
+                "name": "Chroma LED Desk Lamp",
+                "description": "Dimmable, color-changing LED lamp with wireless charging base for your phone.",
+                "price": 65.00,
+                "imageUrl": "https://placehold.co/400x300/06b6d4/ffffff?text=Chroma+Lamp",
+                "rating": 4.4
+            },{
+                "id": 108,
+                "name": "Quantum Mini Portable SSD 1TB",
+                "description": "Blazing fast read/write speeds in a pocket-sized, shock-resistant aluminum casing.",
+                "price": 129.50,
+                "imageUrl": "https://placehold.co/400x300/10b981/ffffff?text=Quantum+SSD",
+                "rating": 4.6
+            },
+            {
+                "id": 109,
+                "name": "Aura Smartwatch Series 5",
+                "description": "Monitors heart rate, sleep, and steps. Waterproof with a stunning AMOLED display.",
+                "price": 199.00,
+                "imageUrl": "https://placehold.co/400x300/ef4444/ffffff?text=Aura+Smartwatch",
+                "rating": 4.9
+            },
+            {
+                "id": 110,
+                "name": "ErgoFlow Mechanical Keyboard",
+                "description": "Tactile brown switches, full RGB backlight, and ergonomic wrist rest for long sessions.",
+                "price": 155.99,
+                "imageUrl": "https://placehold.co/400x300/3b82f6/ffffff?text=ErgoFlow+Keyboard",
+                "rating": 4.7
+            },
+            {
+                "id": 111,
+                "name": "Zenith 4K Webcam",
+                "description": "Ultra HD video quality with auto-focus and built-in privacy shutter. Perfect for streaming.",
+                "price": 89.00,
+                "imageUrl": "https://placehold.co/400x300/f59e0b/ffffff?text=Zenith+Webcam",
+                "rating": 4.5
+            },
+            {
+                "id": 112,
+                "name": "Chroma LED Desk Lamp",
+                "description": "Dimmable, color-changing LED lamp with wireless charging base for your phone.",
+                "price": 65.00,
+                "imageUrl": "https://placehold.co/400x300/06b6d4/ffffff?text=Chroma+Lamp",
+                "rating": 4.4
+            },
+            {
+                "id": 113,
+                "name": "Chroma LED Desk Lamp",
+                "description": "Dimmable, color-changing LED lamp with wireless charging base for your phone.",
+                "price": 65.00,
+                "imageUrl": "https://placehold.co/400x300/06b6d4/ffffff?text=Chroma+Lamp",
+                "rating": 4.4
             }
         ];
 
@@ -318,34 +385,16 @@
             }, 2000);
         }
 
-        /**
-         * Cleans an image URL by extracting the direct link if it's wrapped
-         * in a Google Search query (a common proxy pattern).
-         * @param {string} rawUrl - The potentially wrapped image URL.
-         * @returns {string} The corrected, direct image URL.
-         */
-        function sanitizeImageUrl(rawUrl) {
-            if (rawUrl.startsWith('https://www.google.com/search?q=')) {
-                try {
-                    const urlParams = new URLSearchParams(rawUrl.split('?')[1]);
-                    const encodedUrl = urlParams.get('q');
-                    if (encodedUrl) {
-                        return decodeURIComponent(encodedUrl);
-                    }
-                } catch (e) {
-                    console.warn("Error sanitizing image URL. Using original:", rawUrl, e);
-                }
-            }
-            return rawUrl;
-        }
-
+        // NOTE: sanitizeImageUrl is removed as the MOCK_PRODUCTS array now uses direct placeholder URLs.
+        
         /**
          * Creates and returns a product card element using defined CSS classes.
          * @param {object} product - The product data object.
          * @returns {HTMLElement} The dynamically created product card.
          */
         function createProductCard(product) {
-            const finalImageUrl = sanitizeImageUrl(product.imageUrl);
+            // Use the direct image URL as it is now clean.
+            const finalImageUrl = product.imageUrl; 
 
             // Card Structure
             const card = document.createElement('div');
@@ -361,7 +410,8 @@
             
             image.onerror = function() {
                 this.onerror = null;
-                this.src = 'https://placehold.co/400x225/9ca3af/ffffff?text=Image+Not+Found'; 
+                // Fallback image for consistent aspect ratio
+                this.src = 'https://placehold.co/400x300/9ca3af/ffffff?text=Image+Not+Found'; 
             };
             imageContainer.appendChild(image);
             card.appendChild(imageContainer);
@@ -432,7 +482,6 @@
                 });
 
             } catch (error) {
-                // This catch block will only fire if there's an error in rendering, not fetching.
                 console.error("Failed to render product data:", error);
                 
                 if (loadingMessage) {
